@@ -153,20 +153,20 @@
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
         
-        /* 技能栏 */
+        /* 技能栏 - 桌面端 */
         .skills-bar {
             position: absolute;
-            bottom: 170px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
         
         .skill-slot {
-            width: 55px;
-            height: 55px;
-            background: rgba(0,0,0,0.7);
+            width: 50px;
+            height: 50px;
+            background: rgba(0,0,0,0.8);
             border: 2px solid #666;
             border-radius: 10px;
             display: flex;
@@ -188,13 +188,13 @@
         }
         
         .skill-icon {
-            font-size: 24px;
+            font-size: 22px;
         }
         
         .skill-key {
             position: absolute;
             bottom: 2px;
-            font-size: 10px;
+            font-size: 9px;
             color: #aaa;
         }
         
@@ -203,21 +203,26 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             transition: height 0.1s;
+        }
+        
+        /* 移动端技能栏 - 位于控制区上方 */
+        .skills-bar-mobile {
+            display: none;
         }
         
         /* 武器切换 */
         .weapon-display {
             position: absolute;
-            bottom: 170px;
+            bottom: 20px;
             right: 20px;
             background: rgba(0,0,0,0.7);
             border: 2px solid #ff4400;
             border-radius: 10px;
-            padding: 10px 15px;
+            padding: 8px 12px;
             color: #fff;
-            font-size: 14px;
+            font-size: 13px;
             pointer-events: auto;
         }
         
@@ -229,72 +234,124 @@
         /* 触摸控制 */
         .touch-controls {
             position: absolute;
-            bottom: 10px;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            height: 150px;
-            pointer-events: auto;
+            height: 180px;
+            pointer-events: none;
             display: flex;
             justify-content: space-between;
-            padding: 0 20px;
+            align-items: flex-end;
+            padding: 0 15px 15px 15px;
         }
         
         .dpad {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
+            pointer-events: auto;
         }
         
         .btn {
-            width: 65px;
-            height: 65px;
-            background: rgba(139, 0, 0, 0.4);
-            border: 2px solid rgba(255, 68, 0, 0.6);
+            width: 60px;
+            height: 60px;
+            background: rgba(139, 0, 0, 0.5);
+            border: 2px solid rgba(255, 68, 0, 0.7);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 22px;
             color: #ff4400;
             cursor: pointer;
             transition: all 0.1s;
             backdrop-filter: blur(5px);
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .btn:active {
-            background: rgba(255, 68, 0, 0.5);
-            transform: scale(0.95);
+            background: rgba(255, 68, 0, 0.6);
+            transform: scale(0.92);
         }
         
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
+            pointer-events: auto;
         }
         
         .btn-attack {
-            background: rgba(255, 0, 0, 0.3);
-            border-color: rgba(255, 0, 0, 0.7);
+            background: rgba(255, 0, 0, 0.4);
+            border-color: rgba(255, 0, 0, 0.8);
             color: #ff0000;
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
+            font-size: 26px;
         }
         
         .btn-jump {
-            background: rgba(0, 100, 255, 0.3);
-            border-color: rgba(0, 100, 255, 0.7);
+            background: rgba(0, 100, 255, 0.4);
+            border-color: rgba(0, 100, 255, 0.8);
             color: #4488ff;
         }
         
         .btn-dash {
-            background: rgba(255, 200, 0, 0.3);
-            border-color: rgba(255, 200, 0, 0.7);
+            background: rgba(255, 200, 0, 0.4);
+            border-color: rgba(255, 200, 0, 0.8);
             color: #ffcc00;
         }
         
         .btn-skill {
-            background: rgba(150, 0, 255, 0.3);
-            border-color: rgba(150, 0, 255, 0.7);
+            background: rgba(150, 0, 255, 0.4);
+            border-color: rgba(150, 0, 255, 0.8);
             color: #cc66ff;
+        }
+        
+        /* 移动端技能栏 */
+        .skills-bar-mobile {
+            position: absolute;
+            bottom: 190px;
+            left: 0;
+            width: 100%;
+            display: none;
+            justify-content: center;
+            gap: 10px;
+            pointer-events: auto;
+            padding: 0 10px;
+        }
+        
+        .skills-bar-mobile .skill-slot {
+            width: 52px;
+            height: 52px;
+            background: rgba(0,0,0,0.85);
+            border: 2px solid #666;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+        
+        .skills-bar-mobile .skill-slot:active {
+            transform: scale(0.95);
+        }
+        
+        .skills-bar-mobile .skill-icon {
+            font-size: 24px;
+        }
+        
+        .skills-bar-mobile .cooldown-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.85);
+            border-radius: 0 0 10px 10px;
         }
         
         /* 屏幕 */
@@ -386,14 +443,50 @@
             .touch-controls {
                 display: none;
             }
+            .skills-bar-mobile {
+                display: none;
+            }
             .hidden-mobile {
                 display: block;
             }
             .skills-bar {
+                display: flex !important;
                 bottom: 20px;
             }
             .weapon-display {
                 bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .skills-bar {
+                display: none !important;
+            }
+            .skills-bar-mobile {
+                display: flex;
+            }
+            .weapon-display {
+                bottom: 120px;
+                right: 10px;
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            .hud-top {
+                top: 5px;
+                left: 5px;
+                right: 5px;
+            }
+            .avatar-frame {
+                width: 50px;
+                height: 50px;
+            }
+            .bar-container {
+                width: 140px;
+                height: 14px;
+            }
+            .boss-hp-bar {
+                top: 70px;
+                width: 80%;
             }
         }
         
@@ -493,6 +586,7 @@
                 </div>
             </div>
             
+            <!-- 桌面端技能栏 -->
             <div class="skills-bar">
                 <div class="skill-slot" id="skill1" onclick="game.useSkill(0)">
                     <div class="skill-icon">🔥</div>
@@ -516,6 +610,26 @@
                 </div>
             </div>
             
+            <!-- 移动端技能栏 -->
+            <div class="skills-bar-mobile">
+                <div class="skill-slot" onclick="game.useSkill(0)">
+                    <div class="skill-icon">🔥</div>
+                    <div class="cooldown-overlay" id="cd1m" style="height: 0%"></div>
+                </div>
+                <div class="skill-slot" onclick="game.useSkill(1)">
+                    <div class="skill-icon">⚡</div>
+                    <div class="cooldown-overlay" id="cd2m" style="height: 0%"></div>
+                </div>
+                <div class="skill-slot" onclick="game.useSkill(2)">
+                    <div class="skill-icon">🌪️</div>
+                    <div class="cooldown-overlay" id="cd3m" style="height: 0%"></div>
+                </div>
+                <div class="skill-slot" onclick="game.useSkill(3)">
+                    <div class="skill-icon">💀</div>
+                    <div class="cooldown-overlay" id="cd4m" style="height: 0%"></div>
+                </div>
+            </div>
+            
             <div class="weapon-display">
                 <div>武器: <span class="weapon-name" id="weaponName">烈焰双刀</span></div>
                 <div style="font-size: 12px; color: #888; margin-top: 3px;">按 <span class="key-hint">C</span> 切换</div>
@@ -527,7 +641,6 @@
                     <div class="btn" id="btnRight">▶</div>
                 </div>
                 <div class="action-buttons">
-                    <div class="btn btn-skill" id="btnSkill1">🔥</div>
                     <div class="btn btn-dash" id="btnDash">⚡</div>
                     <div class="btn btn-jump" id="btnJump">▲</div>
                     <div class="btn btn-attack" id="btnAttack">⚔</div>
@@ -697,7 +810,6 @@
                 bindTouch('btnJump', 'ArrowUp');
                 bindTouch('btnAttack', 'z');
                 bindTouch('btnDash', 'x');
-                bindTouch('btnSkill1', 'q');
             }
             
             start() {
@@ -936,14 +1048,24 @@
                 
                 // 更新技能冷却显示
                 p.skills.forEach((skill, i) => {
+                    // 桌面端
                     const slot = document.getElementById('skill' + (i + 1));
                     const cd = document.getElementById('cd' + (i + 1));
-                    if (skill.cooldown > 0) {
-                        slot.classList.add('cooldown');
-                        cd.style.height = (skill.cooldown / skill.maxCooldown * 100) + '%';
-                    } else {
-                        slot.classList.remove('cooldown');
-                        cd.style.height = '0%';
+                    if (slot && cd) {
+                        if (skill.cooldown > 0) {
+                            slot.classList.add('cooldown');
+                            cd.style.height = (skill.cooldown / skill.maxCooldown * 100) + '%';
+                        } else {
+                            slot.classList.remove('cooldown');
+                            cd.style.height = '0%';
+                        }
+                    }
+                    // 移动端
+                    const cdm = document.getElementById('cd' + (i + 1) + 'm');
+                    if (cdm) {
+                        cdm.style.height = skill.cooldown > 0 
+                            ? (skill.cooldown / skill.maxCooldown * 100) + '%' 
+                            : '0%';
                     }
                 });
                 
