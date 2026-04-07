@@ -31,8 +31,8 @@
         }
         
         #gameCanvas {
-            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f23 50%, #16213e 100%);
-            box-shadow: 0 0 50px rgba(0, 255, 200, 0.3);
+            background: #0a0a0a;
+            box-shadow: 0 0 50px rgba(255, 50, 0, 0.5);
         }
         
         #ui {
@@ -44,45 +44,192 @@
             pointer-events: none;
         }
         
-        .health-bar {
+        /* HUD */
+        .hud-top {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 200px;
-            height: 20px;
-            background: rgba(0,0,0,0.6);
-            border: 2px solid #00ffc8;
-            border-radius: 10px;
-            overflow: hidden;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
         
-        .health-fill {
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .avatar-frame {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #ff4400;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 68, 0, 0.6);
+        }
+        
+        .avatar-frame img {
+            width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #00ffc8, #00a8ff);
+            object-fit: cover;
+        }
+        
+        .avatar-frame::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 200, 0, 0.5);
+        }
+        
+        .bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .bar-container {
+            width: 200px;
+            height: 18px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #444;
+            border-radius: 9px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .bar-fill {
+            height: 100%;
             transition: width 0.3s ease;
         }
         
-        .level-info {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: #00ffc8;
-            font-size: 18px;
-            text-shadow: 0 0 10px rgba(0, 255, 200, 0.8);
+        .health-fill {
+            background: linear-gradient(90deg, #8b0000, #ff0000, #ff4400);
         }
         
-        .score {
+        .stamina-fill {
+            background: linear-gradient(90deg, #004400, #00aa00, #44ff44);
+        }
+        
+        .mana-fill {
+            background: linear-gradient(90deg, #000088, #4444ff, #00aaff);
+        }
+        
+        .bar-text {
             position: absolute;
-            top: 50px;
-            left: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+            font-weight: bold;
+        }
+        
+        .game-stats {
+            text-align: right;
+        }
+        
+        .level-badge {
+            background: linear-gradient(135deg, #8b0000, #ff0000);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        
+        .score-display {
             color: #ffd700;
-            font-size: 16px;
+            font-size: 18px;
+            margin-top: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
         }
         
-        /* 触摸控制按钮 */
+        /* 技能栏 */
+        .skills-bar {
+            position: absolute;
+            bottom: 170px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .skill-slot {
+            width: 55px;
+            height: 55px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #666;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+        
+        .skill-slot.active {
+            border-color: #ff4400;
+            box-shadow: 0 0 15px rgba(255, 68, 0, 0.6);
+        }
+        
+        .skill-slot.cooldown {
+            opacity: 0.5;
+        }
+        
+        .skill-icon {
+            font-size: 24px;
+        }
+        
+        .skill-key {
+            position: absolute;
+            bottom: 2px;
+            font-size: 10px;
+            color: #aaa;
+        }
+        
+        .cooldown-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            transition: height 0.1s;
+        }
+        
+        /* 武器切换 */
+        .weapon-display {
+            position: absolute;
+            bottom: 170px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #ff4400;
+            border-radius: 10px;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 14px;
+            pointer-events: auto;
+        }
+        
+        .weapon-name {
+            color: #ffaa00;
+            font-weight: bold;
+        }
+        
+        /* 触摸控制 */
         .touch-controls {
             position: absolute;
-            bottom: 20px;
+            bottom: 10px;
             width: 100%;
             height: 150px;
             pointer-events: auto;
@@ -98,62 +245,66 @@
         }
         
         .btn {
-            width: 60px;
-            height: 60px;
-            background: rgba(0, 255, 200, 0.2);
-            border: 2px solid rgba(0, 255, 200, 0.5);
+            width: 65px;
+            height: 65px;
+            background: rgba(139, 0, 0, 0.4);
+            border: 2px solid rgba(255, 68, 0, 0.6);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: #00ffc8;
+            color: #ff4400;
             cursor: pointer;
             transition: all 0.1s;
             backdrop-filter: blur(5px);
         }
         
         .btn:active {
-            background: rgba(0, 255, 200, 0.5);
+            background: rgba(255, 68, 0, 0.5);
             transform: scale(0.95);
         }
         
         .action-buttons {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
         }
         
         .btn-attack {
-            background: rgba(255, 50, 50, 0.2);
-            border-color: rgba(255, 50, 50, 0.5);
-            color: #ff5050;
-        }
-        
-        .btn-attack:active {
-            background: rgba(255, 50, 50, 0.5);
+            background: rgba(255, 0, 0, 0.3);
+            border-color: rgba(255, 0, 0, 0.7);
+            color: #ff0000;
+            width: 70px;
+            height: 70px;
         }
         
         .btn-jump {
-            background: rgba(0, 150, 255, 0.2);
-            border-color: rgba(0, 150, 255, 0.5);
-            color: #0096ff;
+            background: rgba(0, 100, 255, 0.3);
+            border-color: rgba(0, 100, 255, 0.7);
+            color: #4488ff;
         }
         
         .btn-dash {
-            background: rgba(255, 200, 0, 0.2);
-            border-color: rgba(255, 200, 0, 0.5);
-            color: #ffc800;
+            background: rgba(255, 200, 0, 0.3);
+            border-color: rgba(255, 200, 0, 0.7);
+            color: #ffcc00;
         }
         
-        /* 开始/结束画面 */
+        .btn-skill {
+            background: rgba(150, 0, 255, 0.3);
+            border-color: rgba(150, 0, 255, 0.7);
+            color: #cc66ff;
+        }
+        
+        /* 屏幕 */
         .screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: linear-gradient(135deg, #1a0000, #0a0a0a, #1a0000);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -167,44 +318,64 @@
         }
         
         .game-title {
-            font-size: 48px;
-            color: #00ffc8;
-            text-shadow: 0 0 30px rgba(0, 255, 200, 0.8);
+            font-size: 56px;
+            background: linear-gradient(90deg, #ff0000, #ff4400, #ff8800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
             margin-bottom: 20px;
-            letter-spacing: 5px;
+            letter-spacing: 8px;
+            font-weight: bold;
         }
         
-        .character-avatar {
-            width: 120px;
-            height: 120px;
+        .character-avatar-large {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            border: 4px solid #00ffc8;
+            border: 4px solid #ff4400;
             margin-bottom: 30px;
             object-fit: cover;
-            box-shadow: 0 0 30px rgba(0, 255, 200, 0.5);
+            box-shadow: 0 0 40px rgba(255, 68, 0, 0.7);
         }
         
         .start-btn {
-            padding: 15px 50px;
-            font-size: 24px;
-            background: linear-gradient(90deg, #00ffc8, #00a8ff);
+            padding: 18px 60px;
+            font-size: 26px;
+            background: linear-gradient(90deg, #8b0000, #ff0000, #ff4400);
             border: none;
-            border-radius: 30px;
-            color: #000;
+            border-radius: 35px;
+            color: #fff;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
             font-weight: bold;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
         }
         
         .start-btn:hover {
             transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.9);
         }
         
         .instructions {
             color: #888;
             margin-top: 30px;
             text-align: center;
-            line-height: 1.8;
+            line-height: 2;
+            font-size: 14px;
+        }
+        
+        .instructions p {
+            margin: 5px 0;
+        }
+        
+        .key-hint {
+            display: inline-block;
+            background: #333;
+            padding: 3px 10px;
+            border-radius: 5px;
+            margin: 0 3px;
+            color: #ff8800;
         }
         
         .hidden-mobile {
@@ -218,24 +389,69 @@
             .hidden-mobile {
                 display: block;
             }
+            .skills-bar {
+                bottom: 20px;
+            }
+            .weapon-display {
+                bottom: 20px;
+            }
         }
         
-        /* 特效 */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        /* 特效文字 */
+        @keyframes criticalHit {
+            0% { transform: translateX(-50%) scale(0.5); opacity: 0; }
+            20% { transform: translateX(-50%) scale(1.5); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1) translateY(-50px); opacity: 0; }
         }
         
-        .assassinate-text {
+        .damage-text {
             position: absolute;
-            top: 30%;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000;
+            animation: criticalHit 1s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        .damage-text.critical {
+            color: #ff0000;
+            font-size: 32px;
+        }
+        
+        .damage-text.normal {
+            color: #ffaa00;
+        }
+        
+        /* Boss血条 */
+        .boss-hp-bar {
+            position: absolute;
+            top: 100px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 36px;
+            width: 60%;
+            max-width: 500px;
+        }
+        
+        .boss-name {
             color: #ff0000;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-            animation: pulse 0.5s ease-in-out;
-            pointer-events: none;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+        
+        .boss-hp-container {
+            height: 25px;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #ff0000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .boss-hp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #330000, #ff0000, #ff4400);
+            transition: width 0.3s ease;
         }
     </style>
 </head>
@@ -244,11 +460,66 @@
         <canvas id="gameCanvas"></canvas>
         
         <div id="ui">
-            <div class="health-bar">
-                <div class="health-fill" id="healthFill" style="width: 100%"></div>
+            <div class="hud-top">
+                <div class="player-info">
+                    <div class="avatar-frame">
+                        <img src="cuicui.jpg" alt="翠翠">
+                    </div>
+                    <div class="bars">
+                        <div class="bar-container">
+                            <div class="bar-fill health-fill" id="healthFill" style="width: 100%"></div>
+                            <div class="bar-text"><span id="hpText">100/100</span></div>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill stamina-fill" id="staminaFill" style="width: 100%"></div>
+                            <div class="bar-text">耐力</div>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill mana-fill" id="manaFill" style="width: 100%"></div>
+                            <div class="bar-text">魔力</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-stats">
+                    <div class="level-badge">关卡 <span id="levelNum">1</span></div>
+                    <div class="score-display">得分: <span id="score">0</span></div>
+                </div>
             </div>
-            <div class="level-info">关卡 <span id="levelNum">1</span></div>
-            <div class="score">得分: <span id="score">0</span></div>
+            
+            <div class="boss-hp-bar hidden" id="bossBar">
+                <div class="boss-name">地狱领主</div>
+                <div class="boss-hp-container">
+                    <div class="boss-hp-fill" id="bossHpFill" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="skills-bar">
+                <div class="skill-slot" id="skill1" onclick="game.useSkill(0)">
+                    <div class="skill-icon">🔥</div>
+                    <div class="skill-key">Q</div>
+                    <div class="cooldown-overlay" id="cd1" style="height: 0%"></div>
+                </div>
+                <div class="skill-slot" id="skill2" onclick="game.useSkill(1)">
+                    <div class="skill-icon">⚡</div>
+                    <div class="skill-key">W</div>
+                    <div class="cooldown-overlay" id="cd2" style="height: 0%"></div>
+                </div>
+                <div class="skill-slot" id="skill3" onclick="game.useSkill(2)">
+                    <div class="skill-icon">🌪️</div>
+                    <div class="skill-key">E</div>
+                    <div class="cooldown-overlay" id="cd3" style="height: 0%"></div>
+                </div>
+                <div class="skill-slot" id="skill4" onclick="game.useSkill(3)">
+                    <div class="skill-icon">💀</div>
+                    <div class="skill-key">R</div>
+                    <div class="cooldown-overlay" id="cd4" style="height: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="weapon-display">
+                <div>武器: <span class="weapon-name" id="weaponName">烈焰双刀</span></div>
+                <div style="font-size: 12px; color: #888; margin-top: 3px;">按 <span class="key-hint">C</span> 切换</div>
+            </div>
             
             <div class="touch-controls">
                 <div class="dpad">
@@ -256,6 +527,7 @@
                     <div class="btn" id="btnRight">▶</div>
                 </div>
                 <div class="action-buttons">
+                    <div class="btn btn-skill" id="btnSkill1">🔥</div>
                     <div class="btn btn-dash" id="btnDash">⚡</div>
                     <div class="btn btn-jump" id="btnJump">▲</div>
                     <div class="btn btn-attack" id="btnAttack">⚔</div>
@@ -265,41 +537,98 @@
         
         <div id="startScreen" class="screen">
             <h1 class="game-title">翠客信条</h1>
-            <img src="cuicui.jpg" alt="翠翠" class="character-avatar">
+            <img src="cuicui.jpg" alt="翠翠" class="character-avatar-large">
             <button class="start-btn" onclick="game.start()">开始游戏</button>
             <div class="instructions">
-                <p class="hidden-mobile">键盘: ←→移动 | ↑跳跃 | Z攻击 | X冲刺 | 空格隐形</p>
-                <p>手机: 使用屏幕按钮控制</p>
-                <p style="color: #00ffc8; margin-top: 10px;">潜行到敌人背后进行刺杀！</p>
+                <p class="hidden-mobile">
+                    <span class="key-hint">←→</span>移动 
+                    <span class="key-hint">↑</span>跳跃 
+                    <span class="key-hint">Z</span>攻击
+                </p>
+                <p class="hidden-mobile">
+                    <span class="key-hint">X</span>冲刺 
+                    <span class="key-hint">C</span>切换武器 
+                    <span class="key-hint">QWER</span>技能
+                </p>
+                <p>🔥 火球术 | ⚡ 闪电冲刺 | 🌪️ 旋风斩 | 💀 死亡之握</p>
+                <p style="color: #ff4400; margin-top: 15px;">在地狱中生存，击败所有恶魔！</p>
             </div>
         </div>
         
         <div id="gameOverScreen" class="screen hidden">
-            <h1 class="game-title" style="color: #ff5050;">任务失败</h1>
+            <h1 class="game-title" style="color: #666;">你死了</h1>
             <p style="color: #fff; font-size: 20px; margin-bottom: 20px;">最终得分: <span id="finalScore">0</span></p>
             <button class="start-btn" onclick="game.restart()">重新挑战</button>
         </div>
         
         <div id="victoryScreen" class="screen hidden">
-            <h1 class="game-title" style="color: #ffd700;">任务完成！</h1>
-            <p style="color: #fff; font-size: 20px; margin-bottom: 20px;">最终得分: <span id="victoryScore">0</span></p>
+            <h1 class="game-title" style="color: #ffd700;">关卡完成！</h1>
+            <p style="color: #fff; font-size: 20px; margin-bottom: 20px;">得分: <span id="victoryScore">0</span></p>
             <button class="start-btn" onclick="game.nextLevel()">下一关</button>
+        </div>
+        
+        <div id="weaponSelectScreen" class="screen hidden">
+            <h1 class="game-title" style="font-size: 36px;">选择武器</h1>
+            <div style="display: flex; gap: 30px; margin-top: 30px;">
+                <div class="weapon-card" onclick="game.selectWeapon(0)" style="cursor: pointer; padding: 20px; background: rgba(255,68,0,0.2); border: 2px solid #ff4400; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 40px;">🗡️</div>
+                    <div style="color: #ff8800; font-size: 18px; margin-top: 10px;">烈焰双刀</div>
+                    <div style="color: #888; font-size: 12px; margin-top: 5px;">快速连击</div>
+                </div>
+                <div class="weapon-card" onclick="game.selectWeapon(1)" style="cursor: pointer; padding: 20px; background: rgba(150,0,255,0.2); border: 2px solid #9600ff; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 40px;">⚔️</div>
+                    <div style="color: #cc66ff; font-size: 18px; margin-top: 10px;">地狱大剑</div>
+                    <div style="color: #888; font-size: 12px; margin-top: 5px;">重击破防</div>
+                </div>
+                <div class="weapon-card" onclick="game.selectWeapon(2)" style="cursor: pointer; padding: 20px; background: rgba(0,150,255,0.2); border: 2px solid #0096ff; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 40px;">🏹</div>
+                    <div style="color: #66ccff; font-size: 18px; margin-top: 10px;">恶魔之弓</div>
+                    <div style="color: #888; font-size: 12px; margin-top: 5px;">远程攻击</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // 游戏配置
+        // ==================== 游戏配置 ====================
         const CONFIG = {
-            GRAVITY: 0.6,
-            JUMP_FORCE: -12,
-            MOVE_SPEED: 5,
-            DASH_SPEED: 15,
-            DASH_DURATION: 10,
-            INVISIBLE_DURATION: 120,
-            ASSASSINATE_RANGE: 60
+            GRAVITY: 0.7,
+            FRICTION: 0.85,
+            
+            // 武器配置
+            WEAPONS: [
+                { name: '烈焰双刀', damage: 25, speed: 0.15, range: 80, type: 'dual', color: '#ff4400' },
+                { name: '地狱大剑', damage: 60, speed: 0.4, range: 110, type: 'heavy', color: '#9600ff' },
+                { name: '恶魔之弓', damage: 40, speed: 0.3, range: 400, type: 'ranged', color: '#0096ff' }
+            ],
+            
+            // 技能配置
+            SKILLS: [
+                { name: '火球术', damage: 80, mana: 30, cooldown: 180, icon: '🔥', color: '#ff4400' },
+                { name: '闪电冲刺', damage: 50, mana: 25, cooldown: 150, icon: '⚡', color: '#ffff00' },
+                { name: '旋风斩', damage: 100, mana: 40, cooldown: 240, icon: '🌪️', color: '#00ff88' },
+                { name: '死亡之握', damage: 200, mana: 60, cooldown: 360, icon: '💀', color: '#6600cc' }
+            ]
         };
 
-        // 游戏类
+        // ==================== 工具函数 ====================
+        const Utils = {
+            rectIntersect: (r1, r2) => 
+                r1.x < r2.x + r2.width &&
+                r1.x + r1.width > r2.x &&
+                r1.y < r2.y + r2.height &&
+                r1.y + r1.height > r2.y,
+            
+            distance: (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y),
+            
+            lerp: (start, end, t) => start + (end - start) * t,
+            
+            clamp: (val, min, max) => Math.min(Math.max(val, min), max),
+            
+            randomRange: (min, max) => Math.random() * (max - min) + min
+        };
+
+        // ==================== 游戏主类 ====================
         class Game {
             constructor() {
                 this.canvas = document.getElementById('gameCanvas');
@@ -310,9 +639,8 @@
                 this.score = 0;
                 this.isRunning = false;
                 this.keys = {};
-                this.camera = { x: 0, y: 0 };
+                this.camera = { x: 0, y: 0, shake: 0 };
                 
-                // 加载角色头像
                 this.avatar = new Image();
                 this.avatar.src = 'cuicui.jpg';
                 
@@ -332,11 +660,19 @@
             initInput() {
                 window.addEventListener('keydown', (e) => {
                     this.keys[e.key] = true;
-                    if (e.key === ' ') {
-                        e.preventDefault();
-                        this.player?.toggleInvisible();
+                    
+                    // 武器切换
+                    if (e.key === 'c' || e.key === 'C') {
+                        this.switchWeapon();
                     }
+                    
+                    // 技能按键
+                    if (e.key === 'q' || e.key === 'Q') this.useSkill(0);
+                    if (e.key === 'w' || e.key === 'W') this.useSkill(1);
+                    if (e.key === 'e' || e.key === 'E') this.useSkill(2);
+                    if (e.key === 'r' || e.key === 'R') this.useSkill(3);
                 });
+                
                 window.addEventListener('keyup', (e) => {
                     this.keys[e.key] = false;
                 });
@@ -345,6 +681,7 @@
             setupTouchControls() {
                 const bindTouch = (id, key) => {
                     const btn = document.getElementById(id);
+                    if (!btn) return;
                     btn.addEventListener('touchstart', (e) => {
                         e.preventDefault();
                         this.keys[key] = true;
@@ -360,6 +697,7 @@
                 bindTouch('btnJump', 'ArrowUp');
                 bindTouch('btnAttack', 'z');
                 bindTouch('btnDash', 'x');
+                bindTouch('btnSkill1', 'q');
             }
             
             start() {
@@ -373,9 +711,9 @@
                 this.level = 1;
                 this.score = 0;
                 document.getElementById('gameOverScreen').classList.add('hidden');
-                document.getElementById('victoryScreen').classList.add('hidden');
                 this.initLevel();
                 this.isRunning = true;
+                this.loop();
             }
             
             nextLevel() {
@@ -383,37 +721,38 @@
                 document.getElementById('victoryScreen').classList.add('hidden');
                 this.initLevel();
                 this.isRunning = true;
+                this.loop();
             }
             
             initLevel() {
-                // 初始化玩家
-                this.player = new Player(100, 300, this.avatar);
-                
-                // 生成关卡
-                this.platforms = this.generatePlatforms();
+                this.player = new Player(200, 300, this.avatar);
+                this.platforms = this.generateHellPlatforms();
                 this.enemies = this.generateEnemies();
+                this.projectiles = [];
                 this.particles = [];
                 this.effects = [];
+                this.floatingTexts = [];
                 
-                // 更新UI
                 document.getElementById('levelNum').textContent = this.level;
+                document.getElementById('bossBar').classList.add('hidden');
+                
                 this.updateUI();
             }
             
-            generatePlatforms() {
+            generateHellPlatforms() {
                 const platforms = [];
-                const baseY = this.canvas.height - 100;
+                const baseY = this.canvas.height - 80;
                 
-                // 地面
-                platforms.push(new Platform(0, baseY, 2000, 100));
+                // 岩浆地面
+                platforms.push(new Platform(0, baseY, 3000, 80, 'ground'));
                 
-                // 根据关卡生成平台
-                const platformCount = 5 + this.level * 2;
+                // 浮空岩石平台
+                const platformCount = 8 + this.level * 2;
                 for (let i = 0; i < platformCount; i++) {
-                    const x = 300 + i * 350;
-                    const y = baseY - 100 - Math.random() * 200;
-                    const width = 150 + Math.random() * 100;
-                    platforms.push(new Platform(x, y, width, 20));
+                    const x = 400 + i * 350;
+                    const y = baseY - 150 - Math.random() * 250;
+                    const width = 120 + Math.random() * 100;
+                    platforms.push(new Platform(x, y, width, 25, 'rock'));
                 }
                 
                 return platforms;
@@ -421,31 +760,65 @@
             
             generateEnemies() {
                 const enemies = [];
-                const enemyCount = 3 + this.level * 2;
+                const enemyCount = 4 + this.level * 2;
                 
                 for (let i = 0; i < enemyCount; i++) {
-                    const x = 500 + i * 400 + Math.random() * 200;
+                    const x = 600 + i * 350 + Math.random() * 150;
                     const y = this.canvas.height - 200;
-                    enemies.push(new Enemy(x, y, this.level));
+                    const type = Math.random() > 0.7 ? 'demon' : 'skeleton';
+                    enemies.push(new Enemy(x, y, type, this.level));
+                }
+                
+                // Boss关
+                if (this.level % 3 === 0) {
+                    enemies.push(new Boss(2000 + this.level * 100, this.canvas.height - 300, this.level));
+                    document.getElementById('bossBar').classList.remove('hidden');
                 }
                 
                 return enemies;
             }
             
+            switchWeapon() {
+                this.player.switchWeapon();
+            }
+            
+            selectWeapon(index) {
+                this.player.currentWeapon = index;
+                document.getElementById('weaponSelectScreen').classList.add('hidden');
+                document.getElementById('weaponName').textContent = CONFIG.WEAPONS[index].name;
+                this.isRunning = true;
+                this.loop();
+            }
+            
+            useSkill(index) {
+                if (!this.player) return;
+                this.player.useSkill(index, this);
+            }
+            
             update() {
                 if (!this.isRunning) return;
+                
+                // 相机震动衰减
+                this.camera.shake *= 0.9;
                 
                 // 更新玩家
                 this.player.update(this);
                 
-                // 更新相机跟随玩家
-                this.camera.x = this.player.x - this.canvas.width / 3;
-                this.camera.y = this.player.y - this.canvas.height / 2;
+                // 更新相机
+                this.camera.x = Utils.lerp(this.camera.x, 
+                    this.player.x - this.canvas.width / 3, 0.1);
+                this.camera.y = Utils.lerp(this.camera.y, 
+                    this.player.y - this.canvas.height / 2, 0.1);
                 this.camera.x = Math.max(0, this.camera.x);
-                this.camera.y = Math.max(-200, Math.min(0, this.camera.y));
                 
                 // 更新敌人
-                this.enemies.forEach(enemy => enemy.update(this));
+                this.enemies.forEach(e => e.update(this));
+                
+                // 更新投射物
+                this.projectiles = this.projectiles.filter(p => {
+                    p.update(this);
+                    return p.active;
+                });
                 
                 // 更新粒子
                 this.particles = this.particles.filter(p => {
@@ -459,7 +832,13 @@
                     return e.life > 0;
                 });
                 
-                // 检查胜利条件
+                // 更新浮动文字
+                this.floatingTexts = this.floatingTexts.filter(t => {
+                    t.update();
+                    return t.life > 0;
+                });
+                
+                // 检查胜利
                 if (this.enemies.length === 0) {
                     this.victory();
                 }
@@ -476,17 +855,21 @@
                 const ctx = this.ctx;
                 ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // 保存上下文
+                // 绘制地狱背景
+                this.drawHellBackground(ctx);
+                
                 ctx.save();
                 
-                // 应用相机变换
-                ctx.translate(-this.camera.x, -this.camera.y);
-                
-                // 绘制背景装饰
-                this.drawBackground(ctx);
+                // 相机震动
+                const shakeX = (Math.random() - 0.5) * this.camera.shake;
+                const shakeY = (Math.random() - 0.5) * this.camera.shake;
+                ctx.translate(-this.camera.x + shakeX, -this.camera.y + shakeY);
                 
                 // 绘制平台
                 this.platforms.forEach(p => p.draw(ctx));
+                
+                // 绘制投射物
+                this.projectiles.forEach(p => p.draw(ctx));
                 
                 // 绘制敌人
                 this.enemies.forEach(e => e.draw(ctx));
@@ -501,23 +884,75 @@
                 this.effects.forEach(e => e.draw(ctx));
                 
                 ctx.restore();
+                
+                // 绘制浮动文字（UI层）
+                this.floatingTexts.forEach(t => t.draw(ctx, this.camera));
             }
             
-            drawBackground(ctx) {
-                // 绘制远景建筑
-                const offsetX = this.camera.x * 0.5;
-                ctx.fillStyle = 'rgba(0, 255, 200, 0.05)';
-                for (let i = 0; i < 10; i++) {
-                    const x = i * 300 - offsetX % 300;
-                    const h = 200 + i * 50;
-                    ctx.fillRect(x, this.canvas.height - h, 100, h);
+            drawHellBackground(ctx) {
+                // 天空渐变
+                const grad = ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+                grad.addColorStop(0, '#1a0000');
+                grad.addColorStop(0.5, '#330000');
+                grad.addColorStop(1, '#4a0000');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // 远处的火山
+                ctx.fillStyle = '#0a0000';
+                for (let i = 0; i < 5; i++) {
+                    const x = i * 400 - (this.camera.x * 0.3) % 400;
+                    ctx.beginPath();
+                    ctx.moveTo(x, this.canvas.height);
+                    ctx.lineTo(x + 200, this.canvas.height - 300 - i * 50);
+                    ctx.lineTo(x + 400, this.canvas.height);
+                    ctx.fill();
+                }
+                
+                // 岩浆发光
+                ctx.fillStyle = 'rgba(255, 50, 0, 0.1)';
+                ctx.fillRect(0, this.canvas.height - 150, this.canvas.width, 150);
+                
+                // 粒子灰烬
+                ctx.fillStyle = 'rgba(100, 50, 0, 0.3)';
+                for (let i = 0; i < 20; i++) {
+                    const x = (i * 100 + Date.now() * 0.02) % this.canvas.width;
+                    const y = (i * 50 + Date.now() * 0.01) % this.canvas.height;
+                    ctx.fillRect(x, y, 2, 2);
                 }
             }
             
             updateUI() {
+                const p = this.player;
                 document.getElementById('healthFill').style.width = 
-                    (this.player.health / this.player.maxHealth * 100) + '%';
+                    (p.health / p.maxHealth * 100) + '%';
+                document.getElementById('hpText').textContent = 
+                    Math.floor(p.health) + '/' + p.maxHealth;
+                document.getElementById('staminaFill').style.width = 
+                    (p.stamina / p.maxStamina * 100) + '%';
+                document.getElementById('manaFill').style.width = 
+                    (p.mana / p.maxMana * 100) + '%';
                 document.getElementById('score').textContent = this.score;
+                
+                // 更新技能冷却显示
+                p.skills.forEach((skill, i) => {
+                    const slot = document.getElementById('skill' + (i + 1));
+                    const cd = document.getElementById('cd' + (i + 1));
+                    if (skill.cooldown > 0) {
+                        slot.classList.add('cooldown');
+                        cd.style.height = (skill.cooldown / skill.maxCooldown * 100) + '%';
+                    } else {
+                        slot.classList.remove('cooldown');
+                        cd.style.height = '0%';
+                    }
+                });
+                
+                // Boss血条
+                const boss = this.enemies.find(e => e.isBoss);
+                if (boss) {
+                    document.getElementById('bossHpFill').style.width = 
+                        (boss.health / boss.maxHealth * 100) + '%';
+                }
             }
             
             gameOver() {
@@ -540,105 +975,126 @@
                 }
             }
             
-            addParticle(x, y, color, count = 1) {
+            addParticle(x, y, color, count = 1, speed = 5) {
                 for (let i = 0; i < count; i++) {
-                    this.particles.push(new Particle(x, y, color));
+                    this.particles.push(new Particle(x, y, color, speed));
                 }
             }
             
-            addEffect(type, x, y) {
-                this.effects.push(new Effect(type, x, y));
+            addEffect(type, x, y, options = {}) {
+                this.effects.push(new Effect(type, x, y, options));
             }
             
-            showAssassinateText() {
-                const text = document.createElement('div');
-                text.className = 'assassinate-text';
-                text.textContent = '刺杀成功！';
-                document.getElementById('ui').appendChild(text);
-                setTimeout(() => text.remove(), 500);
+            addProjectile(proj) {
+                this.projectiles.push(proj);
+            }
+            
+            addFloatingText(text, x, y, type = 'normal') {
+                this.floatingTexts.push(new FloatingText(text, x, y, type));
+            }
+            
+            screenShake(amount) {
+                this.camera.shake = amount;
             }
         }
 
-        // 玩家类
+        // ==================== 玩家类 ====================
         class Player {
             constructor(x, y, avatar) {
                 this.x = x;
                 this.y = y;
-                this.width = 40;
-                this.height = 60;
+                this.width = 45;
+                this.height = 80;
                 this.vx = 0;
                 this.vy = 0;
-                this.speed = CONFIG.MOVE_SPEED;
-                this.jumpForce = CONFIG.JUMP_FORCE;
-                this.grounded = false;
-                this.facing = 1; // 1右 -1左
+                this.facing = 1;
                 
-                this.health = 100;
+                // 属性
                 this.maxHealth = 100;
-                this.avatar = avatar;
+                this.health = this.maxHealth;
+                this.maxStamina = 100;
+                this.stamina = this.maxStamina;
+                this.maxMana = 100;
+                this.mana = this.maxMana;
                 
+                // 状态
+                this.grounded = false;
                 this.attacking = false;
-                this.attackCooldown = 0;
                 this.dashing = false;
-                this.dashCooldown = 0;
-                this.invisible = false;
-                this.invisibleTimer = 0;
+                this.invincible = false;
                 
+                // 武器
+                this.currentWeapon = 0;
+                this.weaponCooldown = 0;
+                
+                // 技能
+                this.skills = CONFIG.SKILLS.map(s => ({
+                    ...s,
+                    cooldown: 0,
+                    maxCooldown: s.cooldown
+                }));
+                
+                this.avatar = avatar;
                 this.animFrame = 0;
+                this.animState = 'idle';
             }
             
             update(game) {
+                this.animFrame++;
+                
+                // 耐力恢复
+                if (this.stamina < this.maxStamina) {
+                    this.stamina += 0.3;
+                }
+                
+                // 魔力恢复
+                if (this.mana < this.maxMana) {
+                    this.mana += 0.2;
+                }
+                
+                // 技能冷却
+                this.skills.forEach(skill => {
+                    if (skill.cooldown > 0) skill.cooldown--;
+                });
+                
+                // 武器冷却
+                if (this.weaponCooldown > 0) this.weaponCooldown--;
+                
                 // 输入处理
-                if (!this.dashing) {
+                if (!this.dashing && !this.attacking) {
                     if (game.keys['ArrowLeft']) {
-                        this.vx = -this.speed;
+                        this.vx = -5;
                         this.facing = -1;
+                        this.animState = 'run';
                     } else if (game.keys['ArrowRight']) {
-                        this.vx = this.speed;
+                        this.vx = 5;
                         this.facing = 1;
+                        this.animState = 'run';
                     } else {
-                        this.vx *= 0.8;
+                        this.vx *= CONFIG.FRICTION;
+                        this.animState = 'idle';
                     }
                 }
                 
                 // 跳跃
                 if (game.keys['ArrowUp'] && this.grounded && !this.dashing) {
-                    this.vy = this.jumpForce;
-                    this.grounded = false;
-                    game.addParticle(this.x + this.width/2, this.y + this.height, '#00ffc8', 5);
+                    if (this.stamina >= 15) {
+                        this.vy = -14;
+                        this.grounded = false;
+                        this.stamina -= 15;
+                        game.addParticle(this.x + this.width/2, this.y + this.height, '#ff4400', 8, 7);
+                        game.addEffect('jump', this.x + this.width/2, this.y + this.height);
+                    }
                 }
                 
                 // 攻击
-                if (game.keys['z'] && this.attackCooldown <= 0) {
+                if (game.keys['z'] && this.weaponCooldown <= 0 && !this.attacking) {
                     this.attack(game);
                 }
                 
                 // 冲刺
-                if (game.keys['x'] && this.dashCooldown <= 0 && !this.dashing) {
-                    this.dash();
-                }
-                
-                // 更新冷却
-                if (this.attackCooldown > 0) this.attackCooldown--;
-                if (this.dashCooldown > 0) this.dashCooldown--;
-                
-                // 冲刺逻辑
-                if (this.dashing) {
-                    this.vx = this.facing * CONFIG.DASH_SPEED;
-                    this.dashTimer--;
-                    game.addParticle(this.x + this.width/2, this.y + this.height/2, '#00ffc8', 2);
-                    if (this.dashTimer <= 0) {
-                        this.dashing = false;
-                        this.dashCooldown = 60;
-                    }
-                }
-                
-                // 隐形逻辑
-                if (this.invisible) {
-                    this.invisibleTimer--;
-                    if (this.invisibleTimer <= 0) {
-                        this.invisible = false;
-                    }
+                if (game.keys['x'] && !this.dashing && this.stamina >= 20) {
+                    this.dash(game);
                 }
                 
                 // 重力
@@ -651,8 +1107,8 @@
                 // 平台碰撞
                 this.grounded = false;
                 for (const platform of game.platforms) {
-                    if (this.checkCollision(platform)) {
-                        if (this.vy > 0 && this.y < platform.y) {
+                    if (Utils.rectIntersect(this, platform)) {
+                        if (this.vy > 0 && this.y + this.height - this.vy <= platform.y) {
                             this.y = platform.y - this.height;
                             this.vy = 0;
                             this.grounded = true;
@@ -660,210 +1116,462 @@
                     }
                 }
                 
-                // 边界检查
+                // 边界
                 if (this.y > game.canvas.height + 200) {
                     this.health = 0;
                 }
                 
-                // 动画
-                this.animFrame++;
-                
-                // 刺杀检测
-                this.checkAssassinate(game);
-            }
-            
-            attack(game) {
-                this.attacking = true;
-                this.attackCooldown = 20;
-                
-                const attackX = this.x + this.width/2 + this.facing * 40;
-                const attackY = this.y + this.height/2;
-                
-                game.addEffect('slash', attackX, attackY);
-                
-                // 检测命中
-                game.enemies = game.enemies.filter(enemy => {
-                    const dist = Math.hypot(
-                        enemy.x + enemy.width/2 - attackX,
-                        enemy.y + enemy.height/2 - attackY
-                    );
-                    if (dist < 60) {
-                        enemy.health -= 25;
-                        game.addParticle(enemy.x + enemy.width/2, enemy.y + enemy.height/2, '#ff0000', 8);
-                        if (enemy.health <= 0) {
-                            game.score += 100;
-                            game.addParticle(enemy.x, enemy.y, '#ffd700', 15);
-                            return false;
+                // 敌人碰撞
+                if (!this.invincible && !this.dashing) {
+                    for (const enemy of game.enemies) {
+                        if (Utils.rectIntersect(this, enemy)) {
+                            this.takeDamage(15, game);
                         }
                     }
-                    return true;
-                });
-                
-                setTimeout(() => this.attacking = false, 200);
-            }
-            
-            dash() {
-                this.dashing = true;
-                this.dashTimer = CONFIG.DASH_DURATION;
-            }
-            
-            toggleInvisible() {
-                if (!this.invisible) {
-                    this.invisible = true;
-                    this.invisibleTimer = CONFIG.INVISIBLE_DURATION;
                 }
             }
             
-            checkAssassinate(game) {
-                if (!this.invisible) return;
+            attack(game) {
+                const weapon = CONFIG.WEAPONS[this.currentWeapon];
+                this.attacking = true;
+                this.weaponCooldown = weapon.speed * 60;
+                this.animState = 'attack';
                 
-                game.enemies.forEach((enemy, index) => {
-                    const dist = Math.hypot(
-                        enemy.x + enemy.width/2 - (this.x + this.width/2),
-                        enemy.y + enemy.height/2 - (this.y + this.height/2)
+                // 远程武器
+                if (weapon.type === 'ranged') {
+                    const proj = new Projectile(
+                        this.x + this.width/2,
+                        this.y + this.height/3,
+                        this.facing * 12,
+                        0,
+                        weapon.damage,
+                        weapon.color,
+                        'player'
                     );
+                    game.addProjectile(proj);
+                    game.addParticle(this.x + this.width/2, this.y + this.height/3, '#ffaa00', 5, 4);
+                } else {
+                    // 近战
+                    const attackX = this.x + this.width/2 + this.facing * weapon.range/2;
+                    const attackY = this.y + this.height/2;
                     
-                    // 从背后接近
-                    const behindEnemy = (enemy.facing === 1 && this.x < enemy.x) ||
-                                       (enemy.facing === -1 && this.x > enemy.x);
+                    game.addEffect('slash', attackX, attackY, { 
+                        facing: this.facing, 
+                        color: weapon.color,
+                        size: weapon.range 
+                    });
                     
-                    if (dist < CONFIG.ASSASSINATE_RANGE && behindEnemy && this.grounded) {
-                        // 刺杀成功！
-                        enemy.health = 0;
-                        game.score += 500;
-                        game.showAssassinateText();
-                        game.addEffect('assassinate', enemy.x + enemy.width/2, enemy.y);
-                        game.addParticle(enemy.x, enemy.y, '#ff0000', 20);
-                        game.enemies.splice(index, 1);
-                    }
-                });
+                    // 检测命中
+                    const attackBox = {
+                        x: this.facing === 1 ? this.x + this.width : this.x - weapon.range,
+                        y: this.y,
+                        width: weapon.range,
+                        height: this.height
+                    };
+                    
+                    game.enemies.forEach(enemy => {
+                        if (Utils.rectIntersect(attackBox, enemy)) {
+                            const crit = Math.random() > 0.8;
+                            const damage = weapon.damage * (crit ? 2 : 1);
+                            enemy.takeDamage(damage, game, crit);
+                            
+                            // 击退
+                            enemy.vx = this.facing * 8;
+                            enemy.vy = -5;
+                            
+                            game.screenShake(3);
+                        }
+                    });
+                }
+                
+                setTimeout(() => {
+                    this.attacking = false;
+                }, weapon.speed * 500);
             }
             
-            checkCollision(platform) {
-                return this.x < platform.x + platform.width &&
-                       this.x + this.width > platform.x &&
-                       this.y < platform.y + platform.height &&
-                       this.y + this.height > platform.y;
+            dash(game) {
+                this.dashing = true;
+                this.stamina -= 20;
+                this.invincible = true;
+                
+                game.addEffect('dash', this.x + this.width/2, this.y + this.height/2, { facing: this.facing });
+                
+                let dashFrame = 0;
+                const dashInterval = setInterval(() => {
+                    this.x += this.facing * 15;
+                    dashFrame++;
+                    game.addParticle(this.x + this.width/2, this.y + this.height/2, '#ffff00', 2, 3);
+                    
+                    if (dashFrame >= 8) {
+                        clearInterval(dashInterval);
+                        this.dashing = false;
+                        this.invincible = false;
+                        this.vx = this.facing * 3;
+                    }
+                }, 16);
+            }
+            
+            useSkill(index, game) {
+                const skill = this.skills[index];
+                if (skill.cooldown > 0 || this.mana < skill.mana) return;
+                
+                skill.cooldown = skill.maxCooldown;
+                this.mana -= skill.mana;
+                
+                switch(index) {
+                    case 0: // 火球术
+                        this.castFireball(game, skill);
+                        break;
+                    case 1: // 闪电冲刺
+                        this.castLightningDash(game, skill);
+                        break;
+                    case 2: // 旋风斩
+                        this.castWhirlwind(game, skill);
+                        break;
+                    case 3: // 死亡之握
+                        this.castDeathGrip(game, skill);
+                        break;
+                }
+            }
+            
+            castFireball(game, skill) {
+                const proj = new Projectile(
+                    this.x + this.width/2,
+                    this.y + this.height/3,
+                    this.facing * 10,
+                    0,
+                    skill.damage,
+                    skill.color,
+                    'player',
+                    'fireball'
+                );
+                game.addProjectile(proj);
+                game.addEffect('cast', this.x + this.width/2, this.y, { color: skill.color });
+            }
+            
+            castLightningDash(game, skill) {
+                this.invincible = true;
+                const startX = this.x;
+                const dashDist = 300;
+                const endX = this.x + this.facing * dashDist;
+                
+                // 对路径上的敌人造成伤害
+                game.enemies.forEach(enemy => {
+                    if (Math.abs(enemy.y - this.y) < 100 &&
+                        ((this.facing === 1 && enemy.x > startX && enemy.x < endX) ||
+                         (this.facing === -1 && enemy.x < startX && enemy.x > endX))) {
+                        enemy.takeDamage(skill.damage, game);
+                        enemy.stunned = 60;
+                    }
+                });
+                
+                game.addEffect('lightning', this.x + this.width/2, this.y + this.height/2, { 
+                    facing: this.facing, 
+                    distance: dashDist 
+                });
+                
+                this.x = endX;
+                setTimeout(() => this.invincible = false, 200);
+            }
+            
+            castWhirlwind(game, skill) {
+                let spins = 0;
+                const maxSpins = 10;
+                
+                this.attacking = true;
+                
+                const spinInterval = setInterval(() => {
+                    game.addEffect('whirlwind', this.x + this.width/2, this.y + this.height/2);
+                    
+                    game.enemies.forEach(enemy => {
+                        const dist = Utils.distance(
+                            {x: this.x + this.width/2, y: this.y + this.height/2},
+                            {x: enemy.x + enemy.width/2, y: enemy.y + enemy.height/2}
+                        );
+                        if (dist < 120) {
+                            enemy.takeDamage(skill.damage / maxSpins, game);
+                        }
+                    });
+                    
+                    spins++;
+                    if (spins >= maxSpins) {
+                        clearInterval(spinInterval);
+                        this.attacking = false;
+                    }
+                }, 50);
+            }
+            
+            castDeathGrip(game, skill) {
+                game.addEffect('deathgrip', this.x + this.facing * 200, this.y);
+                
+                setTimeout(() => {
+                    // 大范围伤害
+                    game.enemies.forEach(enemy => {
+                        const dist = Utils.distance(
+                            {x: this.x + this.width/2, y: this.y + this.height/2},
+                            {x: enemy.x + enemy.width/2, y: enemy.y + enemy.height/2}
+                        );
+                        if (dist < 300) {
+                            enemy.takeDamage(skill.damage, game);
+                            enemy.vy = -10;
+                        }
+                    });
+                    
+                    game.screenShake(15);
+                    game.addParticle(this.x + this.facing * 200, this.y, '#6600cc', 30, 10);
+                }, 500);
+            }
+            
+            switchWeapon() {
+                this.currentWeapon = (this.currentWeapon + 1) % CONFIG.WEAPONS.length;
+                document.getElementById('weaponName').textContent = 
+                    CONFIG.WEAPONS[this.currentWeapon].name;
+            }
+            
+            takeDamage(amount, game) {
+                this.health -= amount;
+                game.screenShake(5);
+                game.addParticle(this.x + this.width/2, this.y + this.height/2, '#ff0000', 10, 6);
+                
+                this.invincible = true;
+                setTimeout(() => this.invincible = false, 1000);
             }
             
             draw(ctx) {
                 ctx.save();
                 
-                // 隐形效果
-                if (this.invisible) {
-                    ctx.globalAlpha = 0.3 + Math.sin(this.animFrame * 0.2) * 0.2;
+                if (this.invincible && Math.floor(Date.now() / 50) % 2 === 0) {
+                    ctx.globalAlpha = 0.5;
                 }
                 
-                // 绘制角色（使用头像）
-                const avatarSize = 50;
+                // 绘制人型角色
+                this.drawHumanoid(ctx);
+                
+                ctx.restore();
+            }
+            
+            drawHumanoid(ctx) {
+                const centerX = this.x + this.width/2;
+                const centerY = this.y + this.height/2;
+                
+                // 保存变换
                 ctx.save();
-                ctx.translate(this.x + this.width/2, this.y + this.height/2);
+                ctx.translate(centerX, centerY);
                 if (this.facing === -1) {
                     ctx.scale(-1, 1);
                 }
                 
-                // 绘制头像圆形裁剪
-                ctx.beginPath();
-                ctx.arc(0, 0, avatarSize/2, 0, Math.PI * 2);
-                ctx.clip();
-                ctx.drawImage(this.avatar, -avatarSize/2, -avatarSize/2, avatarSize, avatarSize);
-                ctx.restore();
+                // 身体摆动动画
+                const bodyBob = this.animState === 'run' ? Math.sin(this.animFrame * 0.3) * 3 : 0;
                 
-                // 绘制光环
-                ctx.strokeStyle = this.invisible ? '#00ffc8' : '#00a8ff';
+                // 腿部
+                const legOffset = this.animState === 'run' ? Math.sin(this.animFrame * 0.4) * 10 : 0;
+                ctx.fillStyle = '#1a1a1a';
+                // 左腿
+                ctx.fillRect(-8, 15 + bodyBob + Math.abs(legOffset), 6, 25 - bodyBob);
+                // 右腿
+                ctx.fillRect(2, 15 + bodyBob - Math.abs(legOffset), 6, 25 - bodyBob);
+                
+                // 身体
+                const armorGradient = ctx.createLinearGradient(0, -15, 0, 15);
+                armorGradient.addColorStop(0, '#330000');
+                armorGradient.addColorStop(0.5, '#660000');
+                armorGradient.addColorStop(1, '#330000');
+                ctx.fillStyle = armorGradient;
+                ctx.fillRect(-12, -15 + bodyBob, 24, 35);
+                
+                // 胸甲细节
+                ctx.strokeStyle = '#ff4400';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.arc(this.x + this.width/2, this.y + this.height/2, avatarSize/2 + 5, 
-                       0, Math.PI * 2);
+                ctx.moveTo(0, -10 + bodyBob);
+                ctx.lineTo(0, 15 + bodyBob);
                 ctx.stroke();
                 
-                // 隐形指示器
-                if (this.invisible) {
-                    ctx.fillStyle = '#00ffc8';
-                    ctx.font = '12px Arial';
-                    ctx.fillText('隐形中', this.x, this.y - 10);
+                // 头部
+                ctx.save();
+                ctx.translate(0, -25 + bodyBob);
+                
+                // 脖子
+                ctx.fillStyle = '#cc8866';
+                ctx.fillRect(-4, 5, 8, 8);
+                
+                // 头像圆形裁剪
+                ctx.beginPath();
+                ctx.arc(0, -5, 16, 0, Math.PI * 2);
+                ctx.clip();
+                ctx.drawImage(this.avatar, -16, -21, 32, 32);
+                
+                ctx.restore();
+                
+                // 武器
+                if (this.attacking) {
+                    this.drawWeaponAttack(ctx, bodyBob);
+                } else {
+                    this.drawWeaponIdle(ctx, bodyBob);
                 }
                 
-                // 攻击特效
-                if (this.attacking) {
-                    ctx.strokeStyle = '#fff';
+                // 手臂
+                ctx.fillStyle = '#cc8866';
+                const armSwing = this.animState === 'run' ? Math.sin(this.animFrame * 0.4) * 15 : 0;
+                // 左臂
+                ctx.fillRect(-18, -10 + bodyBob + armSwing, 6, 20);
+                // 右臂
+                ctx.fillRect(12, -10 + bodyBob - armSwing, 6, 20);
+                
+                ctx.restore();
+            }
+            
+            drawWeaponIdle(ctx, bodyBob) {
+                const weapon = CONFIG.WEAPONS[this.currentWeapon];
+                ctx.save();
+                ctx.translate(15, -5 + bodyBob);
+                
+                if (weapon.type === 'dual') {
+                    // 双刀
+                    ctx.fillStyle = weapon.color;
+                    ctx.fillRect(0, -20, 4, 35);
+                    ctx.fillStyle = '#444';
+                    ctx.fillRect(-3, -5, 10, 4);
+                } else if (weapon.type === 'heavy') {
+                    // 大剑
+                    ctx.rotate(0.3);
+                    const grad = ctx.createLinearGradient(0, -40, 0, 10);
+                    grad.addColorStop(0, '#330066');
+                    grad.addColorStop(0.5, weapon.color);
+                    grad.addColorStop(1, '#330066');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(-6, -50, 12, 60);
+                    ctx.fillStyle = '#444';
+                    ctx.fillRect(-8, 0, 16, 6);
+                } else {
+                    // 弓
+                    ctx.strokeStyle = weapon.color;
                     ctx.lineWidth = 3;
                     ctx.beginPath();
-                    const angle = this.facing === 1 ? 0 : Math.PI;
-                    ctx.arc(this.x + this.width/2, this.y + this.height/2, 50, 
-                           angle - 0.5, angle + 0.5);
+                    ctx.arc(0, 0, 20, -Math.PI/2, Math.PI/2);
                     ctx.stroke();
+                    ctx.fillStyle = '#888';
+                    ctx.fillRect(-2, -20, 4, 40);
                 }
                 
-                // 冲刺拖尾
-                if (this.dashing) {
-                    ctx.fillStyle = 'rgba(0, 255, 200, 0.3)';
-                    ctx.fillRect(this.x - this.vx * 3, this.y, this.width, this.height);
+                ctx.restore();
+            }
+            
+            drawWeaponAttack(ctx, bodyBob) {
+                const weapon = CONFIG.WEAPONS[this.currentWeapon];
+                ctx.save();
+                
+                const attackProgress = (this.weaponCooldown / (weapon.speed * 60));
+                const angle = Math.sin(attackProgress * Math.PI) * Math.PI;
+                
+                ctx.translate(10, -5 + bodyBob);
+                ctx.rotate(angle);
+                
+                if (weapon.type === 'dual') {
+                    ctx.fillStyle = weapon.color;
+                    // 刀刃拖尾效果
+                    const grad = ctx.createLinearGradient(0, -30, 0, 30);
+                    grad.addColorStop(0, 'rgba(255, 68, 0, 0)');
+                    grad.addColorStop(0.5, 'rgba(255, 68, 0, 0.8)');
+                    grad.addColorStop(1, 'rgba(255, 68, 0, 0)');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(-10, -40, 20, 80);
+                    
+                    ctx.fillStyle = weapon.color;
+                    ctx.fillRect(-2, -35, 4, 50);
+                } else if (weapon.type === 'heavy') {
+                    const grad = ctx.createLinearGradient(0, -60, 0, 10);
+                    grad.addColorStop(0, 'rgba(150, 0, 255, 0)');
+                    grad.addColorStop(0.5, 'rgba(150, 0, 255, 0.9)');
+                    grad.addColorStop(1, 'rgba(150, 0, 255, 0)');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(-20, -80, 40, 100);
                 }
                 
                 ctx.restore();
             }
         }
 
-        // 敌人类
+        // ==================== 敌人类 ====================
         class Enemy {
-            constructor(x, y, level) {
+            constructor(x, y, type, level) {
                 this.x = x;
                 this.y = y;
                 this.width = 40;
-                this.height = 60;
-                this.vx = 1 + level * 0.5;
-                this.vy = 0;
+                this.height = 75;
+                this.type = type;
                 this.facing = -1;
-                this.health = 50 + level * 25;
-                this.maxHealth = this.health;
-                this.patrolStart = x - 100;
-                this.patrolEnd = x + 100;
-                this.alerted = false;
+                this.vx = 0;
+                this.vy = 0;
+                this.isBoss = false;
+                this.stunned = 0;
+                
                 this.animFrame = 0;
+                this.animState = 'idle';
+                
+                // 根据类型设置属性
+                if (type === 'demon') {
+                    this.maxHealth = 80 + level * 20;
+                    this.damage = 20;
+                    this.speed = 2;
+                    this.color = '#ff2200';
+                } else {
+                    this.maxHealth = 50 + level * 15;
+                    this.damage = 15;
+                    this.speed = 3;
+                    this.color = '#dddddd';
+                }
+                this.health = this.maxHealth;
+                
+                this.patrolStart = x - 150;
+                this.patrolEnd = x + 150;
+                this.alerted = false;
             }
             
             update(game) {
                 this.animFrame++;
                 
-                // 检测玩家
-                const player = game.player;
-                const distToPlayer = Math.hypot(
-                    player.x - this.x,
-                    player.y - this.y
-                );
+                if (this.stunned > 0) {
+                    this.stunned--;
+                    return;
+                }
                 
-                // 视线检测
-                const canSeePlayer = distToPlayer < 200 && 
-                                    !player.invisible &&
-                                    ((this.facing === 1 && player.x > this.x) ||
-                                     (this.facing === -1 && player.x < this.x));
+                const player = game.player;
+                const dist = Utils.distance(this, player);
+                
+                // 检测玩家
+                const canSeePlayer = dist < 250 && !player.dashing;
                 
                 if (canSeePlayer) {
                     this.alerted = true;
-                    // 追逐玩家
-                    if (player.x > this.x) {
-                        this.vx = Math.abs(this.vx);
-                        this.facing = 1;
-                    } else {
-                        this.vx = -Math.abs(this.vx);
-                        this.facing = -1;
-                    }
+                    this.facing = player.x > this.x ? 1 : -1;
                     
-                    // 攻击玩家
-                    if (distToPlayer < 50 && this.animFrame % 60 === 0) {
-                        player.health -= 10;
-                        game.addParticle(player.x, player.y, '#ff0000', 5);
+                    // 追逐
+                    if (dist > 50) {
+                        this.vx = this.facing * this.speed;
+                        this.animState = 'run';
+                    } else {
+                        this.vx = 0;
+                        this.animState = 'attack';
+                        // 攻击
+                        if (this.animFrame % 60 === 0) {
+                            player.takeDamage(this.damage, game);
+                        }
                     }
                 } else {
                     this.alerted = false;
+                    this.animState = 'idle';
                     // 巡逻
                     this.x += this.vx;
                     if (this.x <= this.patrolStart || this.x >= this.patrolEnd) {
-                        this.vx *= -1;
-                        this.facing *= -1;
+                        this.vx = this.x <= this.patrolStart ? this.speed : -this.speed;
+                        this.facing = Math.sign(this.vx);
                     }
                 }
+                
+                // 应用速度
+                this.x += this.vx;
                 
                 // 重力
                 this.vy += CONFIG.GRAVITY;
@@ -871,7 +1579,7 @@
                 
                 // 地面碰撞
                 for (const platform of game.platforms) {
-                    if (this.checkCollision(platform)) {
+                    if (Utils.rectIntersect(this, platform)) {
                         if (this.vy > 0) {
                             this.y = platform.y - this.height;
                             this.vy = 0;
@@ -880,118 +1588,409 @@
                 }
             }
             
-            checkCollision(platform) {
-                return this.x < platform.x + platform.width &&
-                       this.x + this.width > platform.x &&
-                       this.y < platform.y + platform.height &&
-                       this.y + this.height > platform.y;
+            takeDamage(amount, game, isCrit = false) {
+                this.health -= amount;
+                game.addFloatingText(
+                    isCrit ? '暴击 ' + Math.floor(amount) : Math.floor(amount),
+                    this.x + this.width/2,
+                    this.y,
+                    isCrit ? 'critical' : 'normal'
+                );
+                game.addParticle(this.x + this.width/2, this.y + this.height/2, '#ff0000', 5, 5);
+                
+                if (this.health <= 0) {
+                    game.score += this.isBoss ? 1000 : 100;
+                    game.addParticle(this.x, this.y, this.color, 20, 8);
+                    const index = game.enemies.indexOf(this);
+                    if (index > -1) game.enemies.splice(index, 1);
+                }
             }
             
             draw(ctx) {
                 ctx.save();
                 
-                // 敌人身体
-                const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
-                gradient.addColorStop(0, this.alerted ? '#ff4444' : '#8b0000');
-                gradient.addColorStop(1, '#4a0000');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(this.x, this.y, this.width, this.height);
+                if (this.stunned > 0) {
+                    ctx.globalAlpha = 0.6;
+                }
+                
+                const centerX = this.x + this.width/2;
+                const centerY = this.y + this.height/2;
+                
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                if (this.facing === -1) {
+                    ctx.scale(-1, 1);
+                }
+                
+                // 身体动画
+                const bob = this.animState === 'run' ? Math.sin(this.animFrame * 0.3) * 3 : 0;
+                
+                // 腿部
+                ctx.fillStyle = this.type === 'demon' ? '#220000' : '#333';
+                const legOffset = this.animState === 'run' ? Math.sin(this.animFrame * 0.4) * 8 : 0;
+                ctx.fillRect(-7, 12 + bob + Math.abs(legOffset), 5, 22);
+                ctx.fillRect(2, 12 + bob - Math.abs(legOffset), 5, 22);
+                
+                // 身体
+                const bodyGrad = ctx.createLinearGradient(0, -15, 0, 15);
+                if (this.type === 'demon') {
+                    bodyGrad.addColorStop(0, '#440000');
+                    bodyGrad.addColorStop(0.5, '#880000');
+                    bodyGrad.addColorStop(1, '#440000');
+                } else {
+                    bodyGrad.addColorStop(0, '#555');
+                    bodyGrad.addColorStop(0.5, '#777');
+                    bodyGrad.addColorStop(1, '#555');
+                }
+                ctx.fillStyle = bodyGrad;
+                ctx.fillRect(-11, -15 + bob, 22, 32);
+                
+                // 骨骼/恶魔纹路
+                ctx.strokeStyle = this.type === 'demon' ? '#ff0000' : '#aaa';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(0, -10 + bob);
+                ctx.lineTo(0, 12 + bob);
+                ctx.stroke();
+                
+                // 头部
+                ctx.translate(0, -22 + bob);
+                
+                // 角或骷髅头
+                if (this.type === 'demon') {
+                    ctx.fillStyle = '#330000';
+                    ctx.beginPath();
+                    ctx.moveTo(-8, -5);
+                    ctx.lineTo(-12, -18);
+                    ctx.lineTo(-4, -8);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.moveTo(8, -5);
+                    ctx.lineTo(12, -18);
+                    ctx.lineTo(4, -8);
+                    ctx.fill();
+                }
+                
+                // 头
+                ctx.fillStyle = this.type === 'demon' ? '#660000' : '#dddddd';
+                ctx.beginPath();
+                ctx.arc(0, 0, 12, 0, Math.PI * 2);
+                ctx.fill();
                 
                 // 眼睛
                 ctx.fillStyle = this.alerted ? '#ff0000' : '#ffff00';
-                const eyeX = this.facing === 1 ? this.x + 25 : this.x + 5;
-                ctx.fillRect(eyeX, this.y + 10, 10, 5);
+                ctx.beginPath();
+                ctx.arc(-4, -2, 3, 0, Math.PI * 2);
+                ctx.arc(4, -2, 3, 0, Math.PI * 2);
+                ctx.fill();
                 
-                // 警戒标记
-                if (this.alerted) {
-                    ctx.fillStyle = '#ff0000';
-                    ctx.font = 'bold 20px Arial';
-                    ctx.fillText('!', this.x + 15, this.y - 10);
+                // 武器
+                if (this.type === 'demon') {
+                    ctx.fillStyle = '#aa0000';
+                    ctx.fillRect(12, -5, 6, 30);
+                    ctx.fillStyle = '#444';
+                    ctx.fillRect(10, 0, 10, 4);
+                } else {
+                    ctx.strokeStyle = '#888';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(12, 5);
+                    ctx.lineTo(25, -10);
+                    ctx.stroke();
                 }
                 
+                ctx.restore();
+                
                 // 血条
-                const healthPercent = this.health / this.maxHealth;
-                ctx.fillStyle = '#333';
-                ctx.fillRect(this.x, this.y - 15, this.width, 5);
-                ctx.fillStyle = healthPercent > 0.5 ? '#0f0' : '#f00';
-                ctx.fillRect(this.x, this.y - 15, this.width * healthPercent, 5);
+                const hpPercent = this.health / this.maxHealth;
+                ctx.fillStyle = '#222';
+                ctx.fillRect(this.x - 5, this.y - 15, this.width + 10, 6);
+                ctx.fillStyle = hpPercent > 0.5 ? '#00ff00' : '#ff0000';
+                ctx.fillRect(this.x - 5, this.y - 15, (this.width + 10) * hpPercent, 6);
                 
                 ctx.restore();
             }
         }
 
-        // 平台类
+        // ==================== Boss类 ====================
+        class Boss extends Enemy {
+            constructor(x, y, level) {
+                super(x, y, 'demon', level);
+                this.isBoss = true;
+                this.width = 80;
+                this.height = 140;
+                this.maxHealth = 800 + level * 200;
+                this.health = this.maxHealth;
+                this.damage = 40;
+                this.phase = 1;
+            }
+            
+            update(game) {
+                super.update(game);
+                
+                // 阶段转换
+                const hpPercent = this.health / this.maxHealth;
+                if (hpPercent < 0.5 && this.phase === 1) {
+                    this.phase = 2;
+                    this.speed *= 1.5;
+                    game.screenShake(10);
+                }
+                
+                // Boss特殊攻击
+                if (this.alerted && this.animFrame % 180 === 0) {
+                    // 火焰喷射
+                    game.addEffect('firebreath', this.x + this.facing * 50, this.y + 50);
+                    if (Math.abs(game.player.y - this.y) < 100 && 
+                        (this.facing === 1 && game.player.x > this.x) ||
+                        (this.facing === -1 && game.player.x < this.x)) {
+                        game.player.takeDamage(30, game);
+                    }
+                }
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                
+                const centerX = this.x + this.width/2;
+                const centerY = this.y + this.height/2;
+                
+                ctx.translate(centerX, centerY);
+                if (this.facing === -1) {
+                    ctx.scale(-1, 1);
+                }
+                
+                // 巨大的身体
+                const bob = Math.sin(this.animFrame * 0.2) * 5;
+                
+                // 巨大的角
+                ctx.fillStyle = '#220000';
+                ctx.beginPath();
+                ctx.moveTo(-25, -40);
+                ctx.lineTo(-40, -100);
+                ctx.lineTo(-15, -50);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.moveTo(25, -40);
+                ctx.lineTo(40, -100);
+                ctx.lineTo(15, -50);
+                ctx.fill();
+                
+                // 身体
+                const bodyGrad = ctx.createLinearGradient(0, -50, 0, 50);
+                bodyGrad.addColorStop(0, '#330000');
+                bodyGrad.addColorStop(0.5, '#660000');
+                bodyGrad.addColorStop(1, '#330000');
+                ctx.fillStyle = bodyGrad;
+                ctx.fillRect(-35, -50 + bob, 70, 100);
+                
+                // 发光纹路
+                ctx.strokeStyle = '#ff0000';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(0, -40 + bob);
+                ctx.lineTo(0, 40 + bob);
+                ctx.stroke();
+                
+                // 头部
+                ctx.translate(0, -60 + bob);
+                ctx.fillStyle = '#440000';
+                ctx.beginPath();
+                ctx.arc(0, 0, 25, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 发光的眼睛
+                ctx.fillStyle = '#ff0000';
+                ctx.shadowColor = '#ff0000';
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.arc(-10, -5, 8, 0, Math.PI * 2);
+                ctx.arc(10, -5, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // 巨大的武器
+                ctx.fillStyle = '#660000';
+                ctx.fillRect(40, -20, 15, 80);
+                ctx.fillStyle = '#ff4400';
+                ctx.fillRect(35, -40, 25, 30);
+                
+                ctx.restore();
+                
+                ctx.restore();
+            }
+        }
+
+        // ==================== 平台类 ====================
         class Platform {
-            constructor(x, y, width, height) {
+            constructor(x, y, width, height, type = 'rock') {
                 this.x = x;
                 this.y = y;
                 this.width = width;
                 this.height = height;
+                this.type = type;
             }
             
             draw(ctx) {
-                // 平台主体
-                const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
-                gradient.addColorStop(0, '#2a2a4a');
-                gradient.addColorStop(1, '#1a1a2e');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(this.x, this.y, this.width, this.height);
-                
-                // 发光边缘
-                ctx.strokeStyle = '#00ffc8';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x + this.width, this.y);
-                ctx.stroke();
-                
-                // 装饰线条
-                ctx.strokeStyle = 'rgba(0, 255, 200, 0.3)';
-                ctx.lineWidth = 1;
-                for (let i = 0; i < this.width; i += 50) {
+                if (this.type === 'ground') {
+                    // 岩浆地面
+                    const grad = ctx.createLinearGradient(0, this.y, 0, this.y + this.height);
+                    grad.addColorStop(0, '#440000');
+                    grad.addColorStop(0.5, '#880000');
+                    grad.addColorStop(1, '#ff2200');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                    
+                    // 岩浆气泡
+                    ctx.fillStyle = 'rgba(255, 100, 0, 0.5)';
+                    for (let i = 0; i < 5; i++) {
+                        const bx = (this.x + i * 200 + Date.now() * 0.1) % this.width;
+                        const by = this.y + 20 + Math.sin(Date.now() * 0.01 + i) * 10;
+                        ctx.beginPath();
+                        ctx.arc(bx, by, 10 + Math.sin(Date.now() * 0.02 + i) * 5, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                } else {
+                    // 浮空岩石
+                    const grad = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
+                    grad.addColorStop(0, '#3a3a3a');
+                    grad.addColorStop(0.5, '#2a2a2a');
+                    grad.addColorStop(1, '#1a1a1a');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                    
+                    // 边缘发光
+                    ctx.strokeStyle = '#ff4400';
+                    ctx.lineWidth = 2;
                     ctx.beginPath();
-                    ctx.moveTo(this.x + i, this.y);
-                    ctx.lineTo(this.x + i + 20, this.y + this.height);
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x + this.width, this.y);
                     ctx.stroke();
+                    
+                    // 裂纹纹理
+                    ctx.strokeStyle = 'rgba(255, 68, 0, 0.3)';
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i < 3; i++) {
+                        ctx.beginPath();
+                        ctx.moveTo(this.x + i * this.width/3, this.y);
+                        ctx.lineTo(this.x + i * this.width/3 + 20, this.y + this.height);
+                        ctx.stroke();
+                    }
                 }
             }
         }
 
-        // 粒子类
-        class Particle {
-            constructor(x, y, color) {
+        // ==================== 投射物类 ====================
+        class Projectile {
+            constructor(x, y, vx, vy, damage, color, owner, type = 'normal') {
                 this.x = x;
                 this.y = y;
-                this.vx = (Math.random() - 0.5) * 8;
-                this.vy = (Math.random() - 0.5) * 8;
+                this.vx = vx;
+                this.vy = vy;
+                this.damage = damage;
                 this.color = color;
-                this.life = 30;
-                this.maxLife = 30;
-                this.size = Math.random() * 5 + 2;
+                this.owner = owner;
+                this.type = type;
+                this.active = true;
+                this.life = 120;
+            }
+            
+            update(game) {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+                
+                if (this.life <= 0) {
+                    this.active = false;
+                    return;
+                }
+                
+                // 重力影响（火球）
+                if (this.type === 'fireball') {
+                    this.vy += 0.15;
+                }
+                
+                // 边界检查
+                if (this.x < 0 || this.x > 3000 || this.y > game.canvas.height) {
+                    this.active = false;
+                }
+                
+                // 碰撞检测
+                if (this.owner === 'player') {
+                    game.enemies.forEach(enemy => {
+                        if (Utils.rectIntersect(this, enemy)) {
+                            enemy.takeDamage(this.damage, game);
+                            this.active = false;
+                            game.addParticle(this.x, this.y, this.color, 8, 5);
+                        }
+                    });
+                }
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                
+                if (this.type === 'fireball') {
+                    // 火球特效
+                    const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 15);
+                    grad.addColorStop(0, '#ffff00');
+                    grad.addColorStop(0.3, '#ff4400');
+                    grad.addColorStop(1, 'rgba(255, 0, 0, 0)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 6, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+            }
+        }
+
+        // ==================== 粒子类 ====================
+        class Particle {
+            constructor(x, y, color, speed = 5) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * speed;
+                this.vy = (Math.random() - 0.5) * speed;
+                this.color = color;
+                this.life = 40;
+                this.maxLife = 40;
+                this.size = Math.random() * 6 + 2;
+                this.gravity = 0.2;
             }
             
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                this.vy += 0.2;
+                this.vy += this.gravity;
                 this.life--;
+                this.size *= 0.95;
             }
             
             draw(ctx) {
                 const alpha = this.life / this.maxLife;
-                ctx.fillStyle = this.color + Math.floor(alpha * 255).toString(16).padStart(2, '0');
-                ctx.fillRect(this.x, this.y, this.size, this.size);
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
+                ctx.restore();
             }
         }
 
-        // 特效类
+        // ==================== 特效类 ====================
         class Effect {
-            constructor(type, x, y) {
+            constructor(type, x, y, options = {}) {
                 this.type = type;
                 this.x = x;
                 this.y = y;
-                this.life = 20;
-                this.maxLife = 20;
+                this.options = options;
+                this.life = 30;
+                this.maxLife = 30;
             }
             
             update() {
@@ -1001,22 +2000,118 @@
             draw(ctx) {
                 const progress = 1 - this.life / this.maxLife;
                 
-                if (this.type === 'slash') {
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${1 - progress})`;
-                    ctx.lineWidth = 3;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, progress * 50, 0, Math.PI * 2);
-                    ctx.stroke();
-                } else if (this.type === 'assassinate') {
-                    ctx.fillStyle = `rgba(255, 0, 0, ${1 - progress})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, progress * 100, 0, Math.PI * 2);
-                    ctx.fill();
+                ctx.save();
+                
+                switch(this.type) {
+                    case 'slash':
+                        ctx.strokeStyle = this.options.color || '#fff';
+                        ctx.lineWidth = 4;
+                        ctx.globalAlpha = 1 - progress;
+                        ctx.beginPath();
+                        const size = this.options.size || 60;
+                        ctx.arc(this.x, this.y, progress * size, -Math.PI/3, Math.PI/3);
+                        ctx.stroke();
+                        break;
+                        
+                    case 'dash':
+                        ctx.fillStyle = 'rgba(255, 255, 0, 0.3)';
+                        ctx.globalAlpha = 1 - progress;
+                        for (let i = 0; i < 3; i++) {
+                            ctx.fillRect(this.x - this.options.facing * i * 30, this.y - 20, 40, 40);
+                        }
+                        break;
+                        
+                    case 'whirlwind':
+                        ctx.strokeStyle = '#00ff88';
+                        ctx.lineWidth = 3;
+                        ctx.globalAlpha = 1 - progress;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, progress * 120, 0, Math.PI * 2);
+                        ctx.stroke();
+                        break;
+                        
+                    case 'lightning':
+                        ctx.strokeStyle = '#ffff00';
+                        ctx.lineWidth = 4;
+                        ctx.globalAlpha = 1 - progress;
+                        ctx.beginPath();
+                        ctx.moveTo(this.x, this.y);
+                        for (let i = 0; i < 10; i++) {
+                            ctx.lineTo(
+                                this.x + this.options.facing * i * (this.options.distance/10) + (Math.random()-0.5)*20,
+                                this.y + (Math.random()-0.5)*40
+                            );
+                        }
+                        ctx.stroke();
+                        break;
+                        
+                    case 'deathgrip':
+                        ctx.fillStyle = '#6600cc';
+                        ctx.globalAlpha = Math.sin(progress * Math.PI) * 0.5;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, progress * 150, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                        
+                    case 'cast':
+                        ctx.fillStyle = this.options.color;
+                        ctx.globalAlpha = 1 - progress;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, progress * 40, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                        
+                    case 'jump':
+                        ctx.fillStyle = '#ff4400';
+                        ctx.globalAlpha = 1 - progress;
+                        for (let i = 0; i < 8; i++) {
+                            const angle = (i / 8) * Math.PI;
+                            const dist = progress * 30;
+                            ctx.fillRect(
+                                this.x + Math.cos(angle) * dist,
+                                this.y + Math.sin(angle) * dist * 0.5,
+                                4, 4
+                            );
+                        }
+                        break;
                 }
+                
+                ctx.restore();
             }
         }
 
-        // 启动游戏
+        // ==================== 浮动文字类 ====================
+        class FloatingText {
+            constructor(text, x, y, type = 'normal') {
+                this.text = text;
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.life = 40;
+                this.vy = -2;
+            }
+            
+            update() {
+                this.y += this.vy;
+                this.life--;
+            }
+            
+            draw(ctx, camera) {
+                const screenX = this.x - camera.x;
+                const screenY = this.y - camera.y;
+                
+                ctx.save();
+                ctx.font = this.type === 'critical' ? 'bold 24px Arial' : 'bold 18px Arial';
+                ctx.fillStyle = this.type === 'critical' ? '#ff0000' : '#ffaa00';
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 3;
+                ctx.strokeText(this.text, screenX, screenY);
+                ctx.fillText(this.text, screenX, screenY);
+                ctx.restore();
+            }
+        }
+
+        // ==================== 启动游戏 ====================
         const game = new Game();
     </script>
 </body>
