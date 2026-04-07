@@ -212,6 +212,33 @@
             display: none;
         }
         
+        /* 动态背景层 */
+        .bg-layers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .volcano-glow {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center bottom, rgba(255, 80, 0, 0.4) 0%, transparent 70%);
+            animation: volcanoPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes volcanoPulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+        
         /* 武器切换 */
         .weapon-display {
             position: absolute;
@@ -237,24 +264,25 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 180px;
+            height: 185px;
             pointer-events: none;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding: 0 15px 15px 15px;
+            padding: 0 15px 20px 15px;
+            z-index: 60;
         }
         
         .dpad {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
             pointer-events: auto;
         }
         
         .btn {
-            width: 60px;
-            height: 60px;
+            width: 62px;
+            height: 62px;
             background: rgba(139, 0, 0, 0.5);
             border: 2px solid rgba(255, 68, 0, 0.7);
             border-radius: 50%;
@@ -264,10 +292,12 @@
             font-size: 22px;
             color: #ff4400;
             cursor: pointer;
-            transition: all 0.1s;
+            transition: transform 0.1s;
             backdrop-filter: blur(5px);
             pointer-events: auto;
             -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
         }
         
         .btn:active {
@@ -277,7 +307,7 @@
         
         .action-buttons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
             pointer-events: auto;
         }
@@ -286,9 +316,9 @@
             background: rgba(255, 0, 0, 0.4);
             border-color: rgba(255, 0, 0, 0.8);
             color: #ff0000;
-            width: 65px;
-            height: 65px;
-            font-size: 26px;
+            width: 68px;
+            height: 68px;
+            font-size: 28px;
         }
         
         .btn-jump {
@@ -303,31 +333,26 @@
             color: #ffcc00;
         }
         
-        .btn-skill {
-            background: rgba(150, 0, 255, 0.4);
-            border-color: rgba(150, 0, 255, 0.8);
-            color: #cc66ff;
-        }
-        
         /* 移动端技能栏 */
         .skills-bar-mobile {
             position: absolute;
-            bottom: 190px;
+            bottom: 195px;
             left: 0;
             width: 100%;
             display: none;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             pointer-events: auto;
-            padding: 0 10px;
+            padding: 0 15px;
+            z-index: 50;
         }
         
         .skills-bar-mobile .skill-slot {
-            width: 52px;
-            height: 52px;
+            width: 58px;
+            height: 58px;
             background: rgba(0,0,0,0.85);
             border: 2px solid #666;
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -335,14 +360,21 @@
             position: relative;
             pointer-events: auto;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.1s;
+            user-select: none;
         }
         
         .skills-bar-mobile .skill-slot:active {
             transform: scale(0.95);
+            border-color: #ff4400;
+            box-shadow: 0 0 15px rgba(255, 68, 0, 0.5);
         }
         
         .skills-bar-mobile .skill-icon {
-            font-size: 24px;
+            font-size: 26px;
+            pointer-events: none;
         }
         
         .skills-bar-mobile .cooldown-overlay {
@@ -350,8 +382,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0,0,0,0.85);
-            border-radius: 0 0 10px 10px;
+            background: rgba(0,0,0,0.9);
+            border-radius: 0 0 12px 12px;
+            pointer-events: none;
         }
         
         /* 屏幕 */
@@ -466,7 +499,7 @@
                 display: flex;
             }
             .weapon-display {
-                bottom: 120px;
+                bottom: 125px;
                 right: 10px;
                 padding: 6px 10px;
                 font-size: 12px;
@@ -487,6 +520,34 @@
             .boss-hp-bar {
                 top: 70px;
                 width: 80%;
+            }
+        }
+        
+        /* 小屏幕手机适配 */
+        @media (max-width: 380px) {
+            .skills-bar-mobile {
+                bottom: 190px;
+                gap: 8px;
+            }
+            .skills-bar-mobile .skill-slot {
+                width: 52px;
+                height: 52px;
+            }
+            .skills-bar-mobile .skill-icon {
+                font-size: 22px;
+            }
+            .btn {
+                width: 56px;
+                height: 56px;
+                font-size: 20px;
+            }
+            .btn-attack {
+                width: 62px;
+                height: 62px;
+                font-size: 24px;
+            }
+            .touch-controls {
+                padding: 0 10px 15px 10px;
             }
         }
         
@@ -612,19 +673,19 @@
             
             <!-- 移动端技能栏 -->
             <div class="skills-bar-mobile">
-                <div class="skill-slot" onclick="game.useSkill(0)">
+                <div class="skill-slot" id="mobileSkill0" data-skill="0">
                     <div class="skill-icon">🔥</div>
                     <div class="cooldown-overlay" id="cd1m" style="height: 0%"></div>
                 </div>
-                <div class="skill-slot" onclick="game.useSkill(1)">
+                <div class="skill-slot" id="mobileSkill1" data-skill="1">
                     <div class="skill-icon">⚡</div>
                     <div class="cooldown-overlay" id="cd2m" style="height: 0%"></div>
                 </div>
-                <div class="skill-slot" onclick="game.useSkill(2)">
+                <div class="skill-slot" id="mobileSkill2" data-skill="2">
                     <div class="skill-icon">🌪️</div>
                     <div class="cooldown-overlay" id="cd3m" style="height: 0%"></div>
                 </div>
-                <div class="skill-slot" onclick="game.useSkill(3)">
+                <div class="skill-slot" id="mobileSkill3" data-skill="3">
                     <div class="skill-icon">💀</div>
                     <div class="cooldown-overlay" id="cd4m" style="height: 0%"></div>
                 </div>
@@ -792,16 +853,34 @@
             }
             
             setupTouchControls() {
+                // 绑定方向键和动作按钮
                 const bindTouch = (id, key) => {
                     const btn = document.getElementById(id);
                     if (!btn) return;
+                    
                     btn.addEventListener('touchstart', (e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         this.keys[key] = true;
-                    });
+                        btn.style.transform = 'scale(0.92)';
+                        btn.style.background = btn.classList.contains('btn-attack') 
+                            ? 'rgba(255, 0, 0, 0.6)' 
+                            : 'rgba(255, 68, 0, 0.6)';
+                    }, { passive: false });
+                    
                     btn.addEventListener('touchend', (e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         this.keys[key] = false;
+                        btn.style.transform = '';
+                        btn.style.background = '';
+                    }, { passive: false });
+                    
+                    // 防止手指滑出按钮区域时卡住
+                    btn.addEventListener('touchcancel', (e) => {
+                        this.keys[key] = false;
+                        btn.style.transform = '';
+                        btn.style.background = '';
                     });
                 };
                 
@@ -810,6 +889,30 @@
                 bindTouch('btnJump', 'ArrowUp');
                 bindTouch('btnAttack', 'z');
                 bindTouch('btnDash', 'x');
+                
+                // 绑定移动端技能按钮 - 使用 touchstart 确保可以和移动同时触发
+                for (let i = 0; i < 4; i++) {
+                    const skillBtn = document.getElementById('mobileSkill' + i);
+                    if (skillBtn) {
+                        skillBtn.addEventListener('touchstart', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.useSkill(i);
+                            skillBtn.style.transform = 'scale(0.95)';
+                            skillBtn.style.borderColor = '#ff4400';
+                            setTimeout(() => {
+                                skillBtn.style.transform = '';
+                                skillBtn.style.borderColor = '';
+                            }, 100);
+                        }, { passive: false });
+                        
+                        // 防止 touchstart 触发 click
+                        skillBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        });
+                    }
+                }
             }
             
             start() {
@@ -1002,36 +1105,108 @@
             }
             
             drawHellBackground(ctx) {
-                // 天空渐变
-                const grad = ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-                grad.addColorStop(0, '#1a0000');
-                grad.addColorStop(0.5, '#330000');
-                grad.addColorStop(1, '#4a0000');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                const time = Date.now() * 0.001;
+                const w = this.canvas.width;
+                const h = this.canvas.height;
                 
-                // 远处的火山
-                ctx.fillStyle = '#0a0000';
-                for (let i = 0; i < 5; i++) {
-                    const x = i * 400 - (this.camera.x * 0.3) % 400;
+                // 1. 天空渐变 - 更丰富的颜色层次
+                const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
+                skyGrad.addColorStop(0, '#0a0000');
+                skyGrad.addColorStop(0.3, '#1a0005');
+                skyGrad.addColorStop(0.6, '#2a0008');
+                skyGrad.addColorStop(1, '#3a0008');
+                ctx.fillStyle = skyGrad;
+                ctx.fillRect(0, 0, w, h);
+                
+                // 2. 血月
+                const moonX = w * 0.7 - (this.camera.x * 0.05);
+                const moonY = h * 0.2;
+                const moonGrad = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, 120);
+                moonGrad.addColorStop(0, 'rgba(255, 60, 0, 0.9)');
+                moonGrad.addColorStop(0.4, 'rgba(200, 30, 0, 0.5)');
+                moonGrad.addColorStop(1, 'transparent');
+                ctx.fillStyle = moonGrad;
+                ctx.beginPath();
+                ctx.arc(moonX, moonY, 120, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 月亮光晕
+                ctx.fillStyle = 'rgba(255, 40, 0, 0.15)';
+                ctx.beginPath();
+                ctx.arc(moonX, moonY, 200, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 3. 远景山脉（视差0.1）
+                ctx.save();
+                const farMountains = (x) => {
+                    return Math.sin(x * 0.005) * 100 + Math.sin(x * 0.01) * 50 + 150;
+                };
+                ctx.fillStyle = '#0d0202';
+                ctx.beginPath();
+                ctx.moveTo(0, h);
+                for (let x = 0; x <= w + 200; x += 50) {
+                    const worldX = x + this.camera.x * 0.1;
+                    ctx.lineTo(x, h - farMountains(worldX));
+                }
+                ctx.lineTo(w, h);
+                ctx.fill();
+                
+                // 4. 中景火山（视差0.25）
+                for (let i = 0; i < 3; i++) {
+                    const volcanoX = (i * 800 + 200) - (this.camera.x * 0.25) % 2400;
+                    const volcanoH = 350 + i * 50;
+                    
+                    // 火山主体
+                    const volcanoGrad = ctx.createLinearGradient(volcanoX, h - volcanoH, volcanoX, h);
+                    volcanoGrad.addColorStop(0, '#1a0000');
+                    volcanoGrad.addColorStop(0.5, '#0f0000');
+                    volcanoGrad.addColorStop(1, '#050000');
+                    ctx.fillStyle = volcanoGrad;
                     ctx.beginPath();
-                    ctx.moveTo(x, this.canvas.height);
-                    ctx.lineTo(x + 200, this.canvas.height - 300 - i * 50);
-                    ctx.lineTo(x + 400, this.canvas.height);
+                    ctx.moveTo(volcanoX - 250, h);
+                    ctx.lineTo(volcanoX, h - volcanoH);
+                    ctx.lineTo(volcanoX + 250, h);
+                    ctx.fill();
+                    
+                    // 火山口岩浆发光
+                    if (i === 1) {
+                        const eruptIntensity = (Math.sin(time * 2) + 1) * 0.5;
+                        ctx.fillStyle = `rgba(255, ${60 + eruptIntensity * 100}, 0, ${0.6 + eruptIntensity * 0.4})`;
+                        ctx.beginPath();
+                        ctx.ellipse(volcanoX, h - volcanoH + 10, 40, 15, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        // 喷发粒子
+                        if (Math.random() > 0.8) {
+                            this.addParticle(volcanoX, h - volcanoH, '#ff4400', 1, 8);
+                        }
+                    }
+                }
+                
+                // 5. 岩浆河流发光层
+                const lavaGrad = ctx.createLinearGradient(0, h - 100, 0, h);
+                lavaGrad.addColorStop(0, 'rgba(255, 60, 0, 0.2)');
+                lavaGrad.addColorStop(0.5, 'rgba(200, 40, 0, 0.3)');
+                lavaGrad.addColorStop(1, 'rgba(150, 20, 0, 0.4)');
+                ctx.fillStyle = lavaGrad;
+                ctx.fillRect(0, h - 120, w, 120);
+                
+                // 6. 漂浮的灰烬和火星
+                ctx.save();
+                for (let i = 0; i < 30; i++) {
+                    const ashX = ((i * 137 + time * 20) % (w + 100)) - 50;
+                    const ashY = ((i * 73 + time * 30 + this.camera.y * 0.1) % (h + 100)) - 50;
+                    const ashSize = 1 + (i % 3);
+                    const ashAlpha = 0.3 + Math.sin(time + i) * 0.2;
+                    
+                    ctx.fillStyle = `rgba(255, ${100 + i * 5}, 50, ${ashAlpha})`;
+                    ctx.beginPath();
+                    ctx.arc(ashX, ashY, ashSize, 0, Math.PI * 2);
                     ctx.fill();
                 }
+                ctx.restore();
                 
-                // 岩浆发光
-                ctx.fillStyle = 'rgba(255, 50, 0, 0.1)';
-                ctx.fillRect(0, this.canvas.height - 150, this.canvas.width, 150);
-                
-                // 粒子灰烬
-                ctx.fillStyle = 'rgba(100, 50, 0, 0.3)';
-                for (let i = 0; i < 20; i++) {
-                    const x = (i * 100 + Date.now() * 0.02) % this.canvas.width;
-                    const y = (i * 50 + Date.now() * 0.01) % this.canvas.height;
-                    ctx.fillRect(x, y, 2, 2);
-                }
+                ctx.restore();
             }
             
             updateUI() {
@@ -1475,106 +1650,589 @@
             drawHumanoid(ctx) {
                 const centerX = this.x + this.width/2;
                 const centerY = this.y + this.height/2;
+                const time = Date.now() * 0.001;
                 
-                // 保存变换
                 ctx.save();
                 ctx.translate(centerX, centerY);
                 if (this.facing === -1) {
                     ctx.scale(-1, 1);
                 }
                 
-                // 身体摆动动画
-                const bodyBob = this.animState === 'run' ? Math.sin(this.animFrame * 0.3) * 3 : 0;
+                // 动画参数
+                const runCycle = this.animFrame * 0.15;
+                const isRunning = this.animState === 'run';
+                const isJumping = !this.grounded;
+                const isAttacking = this.attacking;
                 
-                // 腿部
-                const legOffset = this.animState === 'run' ? Math.sin(this.animFrame * 0.4) * 10 : 0;
-                ctx.fillStyle = '#1a1a1a';
-                // 左腿
-                ctx.fillRect(-8, 15 + bodyBob + Math.abs(legOffset), 6, 25 - bodyBob);
-                // 右腿
-                ctx.fillRect(2, 15 + bodyBob - Math.abs(legOffset), 6, 25 - bodyBob);
+                // 身体摆动 - 更自然的体态变化
+                const bodyBob = isRunning ? Math.sin(runCycle) * 4 : 
+                               isJumping ? -Math.sin(time * 10) * 3 : 
+                               Math.sin(time * 2) * 1;
                 
-                // 身体
-                const armorGradient = ctx.createLinearGradient(0, -15, 0, 15);
-                armorGradient.addColorStop(0, '#330000');
-                armorGradient.addColorStop(0.5, '#660000');
-                armorGradient.addColorStop(1, '#330000');
-                ctx.fillStyle = armorGradient;
-                ctx.fillRect(-12, -15 + bodyBob, 24, 35);
+                const bodyTilt = isRunning ? Math.sin(runCycle) * 0.05 :
+                                 isAttacking ? 0.15 : 0;
                 
-                // 胸甲细节
-                ctx.strokeStyle = '#ff4400';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(0, -10 + bodyBob);
-                ctx.lineTo(0, 15 + bodyBob);
-                ctx.stroke();
+                // 披风动态摆动
+                const capeSway = Math.sin(runCycle * 0.7 + time * 3) * (isRunning ? 20 : 8);
+                const capeLift = isJumping ? -15 : Math.cos(runCycle) * 5;
                 
-                // 头部
+                // ========== 绘制披风 (在身体后面) ==========
                 ctx.save();
-                ctx.translate(0, -25 + bodyBob);
+                ctx.translate(0, -15 + bodyBob);
+                ctx.rotate(capeSway * Math.PI / 180);
                 
-                // 脖子
-                ctx.fillStyle = '#cc8866';
-                ctx.fillRect(-4, 5, 8, 8);
+                // 披风渐变
+                const capeGrad = ctx.createLinearGradient(0, -20, 0, 45);
+                capeGrad.addColorStop(0, '#2a0000');
+                capeGrad.addColorStop(0.3, '#440000');
+                capeGrad.addColorStop(0.7, '#660000');
+                capeGrad.addColorStop(1, '#220000');
+                ctx.fillStyle = capeGrad;
                 
-                // 头像圆形裁剪
+                // 披风形状 - 更流畅的曲线
                 ctx.beginPath();
-                ctx.arc(0, -5, 16, 0, Math.PI * 2);
-                ctx.clip();
-                ctx.drawImage(this.avatar, -16, -21, 32, 32);
+                ctx.moveTo(-8, -20);
+                ctx.quadraticCurveTo(-25 + capeSway * 0.3, 10 + capeLift, -20 + capeSway * 0.5, 45 + capeLift);
+                ctx.quadraticCurveTo(0, 50 + capeLift * 0.5, 20 - capeSway * 0.5, 45 + capeLift);
+                ctx.quadraticCurveTo(15 + capeSway * 0.3, 10 + capeLift, 8, -20);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 披风装饰边缘
+                ctx.strokeStyle = '#ff4400';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(-8, -20);
+                ctx.quadraticCurveTo(-20 + capeSway * 0.3, 10, -15 + capeSway * 0.5, 35);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(8, -20);
+                ctx.quadraticCurveTo(15 + capeSway * 0.3, 10, 10 - capeSway * 0.5, 35);
+                ctx.stroke();
                 
                 ctx.restore();
                 
-                // 武器
+                // ========== 腿部 (更真实的比例) ==========
+                const leftLegAngle = isRunning ? Math.sin(runCycle) * 0.5 : 0;
+                const rightLegAngle = isRunning ? Math.sin(runCycle + Math.PI) * 0.5 : 0;
+                
+                // 护腿 - 左
+                ctx.save();
+                ctx.translate(-6, 18 + bodyBob);
+                ctx.rotate(leftLegAngle);
+                const legGrad = ctx.createLinearGradient(-4, 0, 4, 0);
+                legGrad.addColorStop(0, '#1a0500');
+                legGrad.addColorStop(0.5, '#330a00');
+                legGrad.addColorStop(1, '#1a0500');
+                ctx.fillStyle = legGrad;
+                ctx.fillRect(-5, 0, 10, 22);
+                // 护腿装甲线条
+                ctx.strokeStyle = '#ff6600';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(-3, 3);
+                ctx.lineTo(-3, 18);
+                ctx.moveTo(3, 3);
+                ctx.lineTo(3, 18);
+                ctx.stroke();
+                // 护膝
+                ctx.fillStyle = '#441100';
+                ctx.beginPath();
+                ctx.arc(0, 8, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#ff8800';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+                
+                // 护腿 - 右
+                ctx.save();
+                ctx.translate(6, 18 + bodyBob);
+                ctx.rotate(rightLegAngle);
+                ctx.fillStyle = legGrad;
+                ctx.fillRect(-5, 0, 10, 22);
+                ctx.strokeStyle = '#ff6600';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(-3, 3);
+                ctx.lineTo(-3, 18);
+                ctx.moveTo(3, 3);
+                ctx.lineTo(3, 18);
+                ctx.stroke();
+                ctx.fillStyle = '#441100';
+                ctx.beginPath();
+                ctx.arc(0, 8, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#ff8800';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+                
+                // ========== 身体 ==========
+                ctx.save();
+                ctx.translate(0, bodyBob);
+                ctx.rotate(bodyTilt);
+                
+                // 腰部
+                ctx.fillStyle = '#1a0a00';
+                ctx.fillRect(-10, 10, 20, 10);
+                
+                // 上身护甲
+                const armorGrad = ctx.createLinearGradient(-12, -20, 12, 20);
+                armorGrad.addColorStop(0, '#2a0000');
+                armorGrad.addColorStop(0.3, '#550000');
+                armorGrad.addColorStop(0.5, '#770000');
+                armorGrad.addColorStop(0.7, '#550000');
+                armorGrad.addColorStop(1, '#2a0000');
+                ctx.fillStyle = armorGrad;
+                ctx.fillRect(-13, -22, 26, 35);
+                
+                // 胸甲细节 - 多层结构
+                ctx.strokeStyle = '#ff4400';
+                ctx.lineWidth = 2;
+                // 中央脊柱线
+                ctx.beginPath();
+                ctx.moveTo(0, -18);
+                ctx.lineTo(0, 10);
+                ctx.stroke();
+                // 胸甲板
+                ctx.fillStyle = 'rgba(100, 20, 0, 0.6)';
+                ctx.fillRect(-10, -15, 20, 20);
+                ctx.strokeRect(-10, -15, 20, 20);
+                // 十字徽记
+                ctx.strokeStyle = '#ff6600';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(0, -12);
+                ctx.lineTo(0, 8);
+                ctx.moveTo(-6, -2);
+                ctx.lineTo(6, -2);
+                ctx.stroke();
+                
+                // 肩甲 - 左
+                const shoulderLift = isRunning ? Math.sin(runCycle) * 3 : 0;
+                ctx.fillStyle = '#440000';
+                ctx.beginPath();
+                ctx.ellipse(-16, -18 + shoulderLift, 8, 10, -0.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#ff6600';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                // 肩甲装饰
+                ctx.fillStyle = '#ff8800';
+                ctx.beginPath();
+                ctx.arc(-16, -18 + shoulderLift, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 肩甲 - 右
+                ctx.fillStyle = '#440000';
+                ctx.beginPath();
+                ctx.ellipse(16, -18 - shoulderLift, 8, 10, 0.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#ff6600';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.fillStyle = '#ff8800';
+                ctx.beginPath();
+                ctx.arc(16, -18 - shoulderLift, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.restore();
+                
+                // ========== 头部 ==========
+                ctx.save();
+                ctx.translate(0, -32 + bodyBob);
+                ctx.rotate(bodyTilt * 0.5);
+                
+                // 脖子
+                ctx.fillStyle = '#cc8866';
+                ctx.fillRect(-4, 8, 8, 8);
+                // 脖子阴影
+                ctx.fillStyle = '#aa6644';
+                ctx.fillRect(-2, 10, 4, 4);
+                
+                // 头像圆形裁剪区域
+                ctx.beginPath();
+                ctx.arc(0, -5, 18, 0, Math.PI * 2);
+                ctx.clip();
+                
+                // 头像背景圆
+                ctx.fillStyle = '#331100';
+                ctx.beginPath();
+                ctx.arc(0, -5, 18, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 绘制头像
+                ctx.drawImage(this.avatar, -18, -23, 36, 36);
+                
+                // 头像边框
+                ctx.strokeStyle = '#ff4400';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(0, -5, 18, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                ctx.restore();
+                
+                // ========== 武器 (在手臂前或后) ==========
                 if (this.attacking) {
                     this.drawWeaponAttack(ctx, bodyBob);
                 } else {
                     this.drawWeaponIdle(ctx, bodyBob);
                 }
                 
-                // 手臂
+                // ========== 手臂 ==========
+                const leftArmSwing = isRunning ? Math.sin(runCycle + Math.PI) * 18 : 
+                                     isAttacking ? -20 : 5;
+                const rightArmSwing = isRunning ? Math.sin(runCycle) * 18 : 
+                                      isAttacking ? 35 : -5;
+                
+                // 左手臂
+                ctx.save();
+                ctx.translate(-16, -12 + bodyBob);
+                ctx.rotate(leftArmSwing * Math.PI / 180);
                 ctx.fillStyle = '#cc8866';
-                const armSwing = this.animState === 'run' ? Math.sin(this.animFrame * 0.4) * 15 : 0;
-                // 左臂
-                ctx.fillRect(-18, -10 + bodyBob + armSwing, 6, 20);
-                // 右臂
-                ctx.fillRect(12, -10 + bodyBob - armSwing, 6, 20);
+                ctx.fillRect(-4, 0, 8, 22);
+                // 护腕
+                ctx.fillStyle = '#330000';
+                ctx.fillRect(-5, 5, 10, 8);
+                ctx.strokeStyle = '#ff6600';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(-5, 5, 10, 8);
+                // 手
+                ctx.fillStyle = '#cc8866';
+                ctx.beginPath();
+                ctx.arc(0, 24, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+                
+                // 右手臂
+                ctx.save();
+                ctx.translate(16, -12 + bodyBob);
+                ctx.rotate(rightArmSwing * Math.PI / 180);
+                ctx.fillStyle = '#cc8866';
+                ctx.fillRect(-4, 0, 8, 22);
+                ctx.fillStyle = '#330000';
+                ctx.fillRect(-5, 5, 10, 8);
+                ctx.strokeStyle = '#ff6600';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(-5, 5, 10, 8);
+                ctx.fillStyle = '#cc8866';
+                ctx.beginPath();
+                ctx.arc(0, 24, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+                
+                // ========== 发光效果 ==========
+                if (this.invincible || this.dashing) {
+                    ctx.save();
+                    const glowIntensity = Math.sin(time * 10) * 0.5 + 0.5;
+                    ctx.shadowColor = this.dashing ? '#ffff00' : '#00aaff';
+                    ctx.shadowBlur = 20 + glowIntensity * 15;
+                    ctx.strokeStyle = `rgba(${this.dashing ? '255,255,0' : '0,170,255'}, ${0.3 + glowIntensity * 0.4})`;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, 20, 35, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+                
+                // 技能状态发光
+                if (this.skills.some(s => s.cooldown < 10 && s.cooldown > 0)) {
+                    ctx.save();
+                    ctx.shadowColor = '#ff4400';
+                    ctx.shadowBlur = 15;
+                    ctx.strokeStyle = 'rgba(255, 68, 0, 0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, -15, 25 + Math.sin(time * 5) * 3, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                }
                 
                 ctx.restore();
             }
             
             drawWeaponIdle(ctx, bodyBob) {
                 const weapon = CONFIG.WEAPONS[this.currentWeapon];
+                const time = Date.now() * 0.001;
                 ctx.save();
-                ctx.translate(15, -5 + bodyBob);
+                ctx.translate(20, -5 + bodyBob);
                 
                 if (weapon.type === 'dual') {
-                    // 双刀
-                    ctx.fillStyle = weapon.color;
-                    ctx.fillRect(0, -20, 4, 35);
-                    ctx.fillStyle = '#444';
-                    ctx.fillRect(-3, -5, 10, 4);
-                } else if (weapon.type === 'heavy') {
-                    // 大剑
-                    ctx.rotate(0.3);
-                    const grad = ctx.createLinearGradient(0, -40, 0, 10);
-                    grad.addColorStop(0, '#330066');
-                    grad.addColorStop(0.5, weapon.color);
-                    grad.addColorStop(1, '#330066');
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(-6, -50, 12, 60);
-                    ctx.fillStyle = '#444';
-                    ctx.fillRect(-8, 0, 16, 6);
-                } else {
-                    // 弓
-                    ctx.strokeStyle = weapon.color;
-                    ctx.lineWidth = 3;
+                    // ========== 烈焰双刁 - 精细设计 ==========
+                    ctx.save();
+                    ctx.rotate(-0.2);
+                    
+                    // 刀柄
+                    ctx.fillStyle = '#2a1a0a';
+                    ctx.fillRect(-4, -8, 8, 15);
+                    ctx.fillStyle = '#554433';
+                    ctx.fillRect(-3, -7, 6, 13);
+                    // 护手
+                    ctx.fillStyle = '#660000';
                     ctx.beginPath();
-                    ctx.arc(0, 0, 20, -Math.PI/2, Math.PI/2);
+                    ctx.moveTo(-6, 0);
+                    ctx.lineTo(6, 0);
+                    ctx.lineTo(4, 8);
+                    ctx.lineTo(-4, 8);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#ff4400';
+                    ctx.lineWidth = 1;
                     ctx.stroke();
-                    ctx.fillStyle = '#888';
-                    ctx.fillRect(-2, -20, 4, 40);
+                    
+                    // 刀刃 - 多层渐变
+                    const bladeGrad = ctx.createLinearGradient(-3, 0, 3, 0);
+                    bladeGrad.addColorStop(0, '#330a00');
+                    bladeGrad.addColorStop(0.3, '#aa2200');
+                    bladeGrad.addColorStop(0.5, '#ff6600');
+                    bladeGrad.addColorStop(0.7, '#aa2200');
+                    bladeGrad.addColorStop(1, '#330a00');
+                    ctx.fillStyle = bladeGrad;
+                    
+                    // 刀刋轮廓
+                    ctx.beginPath();
+                    ctx.moveTo(-3, 0);
+                    ctx.lineTo(-3, -35);
+                    ctx.quadraticCurveTo(-1, -42, 0, -45);
+                    ctx.quadraticCurveTo(1, -42, 3, -35);
+                    ctx.lineTo(3, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // 刀刋光泽线
+                    ctx.strokeStyle = '#ffaa00';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -5);
+                    ctx.lineTo(0, -38);
+                    ctx.stroke();
+                    
+                    // 刀纹
+                    ctx.strokeStyle = '#ff4400';
+                    ctx.lineWidth = 0.5;
+                    for (let i = 0; i < 3; i++) {
+                        ctx.beginPath();
+                        ctx.moveTo(-1, -10 - i * 8);
+                        ctx.lineTo(1, -12 - i * 8);
+                        ctx.stroke();
+                    }
+                    
+                    // 火焰效果
+                    const flameIntensity = Math.sin(time * 8) * 0.3 + 0.7;
+                    ctx.shadowColor = '#ff4400';
+                    ctx.shadowBlur = 10 + flameIntensity * 10;
+                    ctx.strokeStyle = `rgba(255, 100, 0, ${0.5 + flameIntensity * 0.3})`;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(-2, -35);
+                    ctx.quadraticCurveTo(0, -48, 2, -35);
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    
+                    // 火焰粒子
+                    if (Math.random() > 0.7) {
+                        ctx.fillStyle = `rgba(255, ${Math.floor(100 + Math.random() * 100)}, 0, 0.8)`;
+                        const px = (Math.random() - 0.5) * 6;
+                        const py = -30 - Math.random() * 15;
+                        ctx.beginPath();
+                        ctx.arc(px, py, 1 + Math.random() * 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    
+                    ctx.restore();
+                    
+                    // 第二把刀 (略小一点)
+                    ctx.save();
+                    ctx.translate(-5, 5);
+                    ctx.rotate(0.1);
+                    ctx.scale(0.85, 0.85);
+                    
+                    ctx.fillStyle = '#2a1a0a';
+                    ctx.fillRect(-3, -6, 6, 12);
+                    const bladeGrad2 = ctx.createLinearGradient(-2, 0, 2, 0);
+                    bladeGrad2.addColorStop(0, '#330a00');
+                    bladeGrad2.addColorStop(0.5, '#ff4400');
+                    bladeGrad2.addColorStop(1, '#330a00');
+                    ctx.fillStyle = bladeGrad2;
+                    ctx.beginPath();
+                    ctx.moveTo(-2, 0);
+                    ctx.lineTo(-2, -30);
+                    ctx.quadraticCurveTo(0, -35, 2, -30);
+                    ctx.lineTo(2, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    ctx.restore();
+                    
+                } else if (weapon.type === 'heavy') {
+                    // ========== 地狱大剑 - 巨型重剑 ==========
+                    ctx.save();
+                    ctx.rotate(0.4);
+                    
+                    // 巨大剑柄
+                    ctx.fillStyle = '#1a0a05';
+                    ctx.fillRect(-8, -10, 16, 25);
+                    ctx.fillStyle = '#3d2817';
+                    ctx.fillRect(-6, -8, 12, 21);
+                    // 剑柄装饰
+                    ctx.strokeStyle = '#660000';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(-6, -5);
+                    ctx.lineTo(-6, 10);
+                    ctx.moveTo(6, -5);
+                    ctx.lineTo(6, 10);
+                    ctx.stroke();
+                    
+                    // 巨大护手
+                    ctx.fillStyle = '#220000';
+                    ctx.beginPath();
+                    ctx.moveTo(-15, 5);
+                    ctx.lineTo(15, 5);
+                    ctx.lineTo(12, 18);
+                    ctx.lineTo(-12, 18);
+                    ctx.closePath();
+                    ctx.fill();
+                    // 护手纹理
+                    ctx.strokeStyle = '#ff4400';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(-10, 8);
+                    ctx.lineTo(-8, 15);
+                    ctx.moveTo(10, 8);
+                    ctx.lineTo(8, 15);
+                    ctx.stroke();
+                    
+                    // 巨大剑身
+                    const bladeGrad = ctx.createLinearGradient(-8, 0, 8, 0);
+                    bladeGrad.addColorStop(0, '#1a0022');
+                    bladeGrad.addColorStop(0.2, '#440066');
+                    bladeGrad.addColorStop(0.5, '#9600ff');
+                    bladeGrad.addColorStop(0.8, '#440066');
+                    bladeGrad.addColorStop(1, '#1a0022');
+                    ctx.fillStyle = bladeGrad;
+                    
+                    // 剑身轮廓 - 锋利形状
+                    ctx.beginPath();
+                    ctx.moveTo(-10, 15);
+                    ctx.lineTo(-8, -70);
+                    ctx.quadraticCurveTo(-4, -85, 0, -90);
+                    ctx.quadraticCurveTo(4, -85, 8, -70);
+                    ctx.lineTo(10, 15);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // 剑身纹理
+                    ctx.strokeStyle = '#330044';
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i < 5; i++) {
+                        ctx.beginPath();
+                        ctx.moveTo(-6, 10 - i * 15);
+                        ctx.lineTo(6, 15 - i * 15);
+                        ctx.stroke();
+                    }
+                    
+                    // 符文发光效果
+                    const runeGlow = Math.sin(time * 4) * 0.3 + 0.7;
+                    ctx.shadowColor = '#9600ff';
+                    ctx.shadowBlur = 15 + runeGlow * 15;
+                    ctx.fillStyle = `rgba(150, 0, 255, ${0.4 + runeGlow * 0.4})`;
+                    
+                    // 符文图案
+                    for (let i = 0; i < 3; i++) {
+                        const ry = -20 - i * 20;
+                        ctx.beginPath();
+                        ctx.arc(0, ry, 4 + i, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.moveTo(-3, ry - 5);
+                        ctx.lineTo(0, ry + 5);
+                        ctx.lineTo(3, ry - 5);
+                        ctx.stroke();
+                    }
+                    
+                    // 剑边光芒
+                    ctx.strokeStyle = `rgba(200, 100, 255, ${0.6 + runeGlow * 0.4})`;
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 10;
+                    ctx.beginPath();
+                    ctx.moveTo(-8, 15);
+                    ctx.lineTo(-6, -70);
+                    ctx.quadraticCurveTo(-3, -82, 0, -87);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(8, 15);
+                    ctx.lineTo(6, -70);
+                    ctx.quadraticCurveTo(3, -82, 0, -87);
+                    ctx.stroke();
+                    
+                    ctx.shadowBlur = 0;
+                    ctx.restore();
+                    
+                } else {
+                    // ========== 恶魔之弓 - 精致弓身 ==========
+                    ctx.save();
+                    ctx.rotate(-0.3);
+                    
+                    const bowGrad = ctx.createLinearGradient(-8, -30, 8, 30);
+                    bowGrad.addColorStop(0, '#002244');
+                    bowGrad.addColorStop(0.5, '#0096ff');
+                    bowGrad.addColorStop(1, '#002244');
+                    
+                    // 弓身弧线
+                    ctx.strokeStyle = bowGrad;
+                    ctx.lineWidth = 5;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 28, -Math.PI/2 - 0.3, Math.PI/2 + 0.3);
+                    ctx.stroke();
+                    
+                    // 弓身装饰
+                    ctx.strokeStyle = '#66ccff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 25, -Math.PI/2 - 0.2, Math.PI/2 + 0.2);
+                    ctx.stroke();
+                    
+                    // 弓身节点装饰
+                    ctx.fillStyle = '#0096ff';
+                    ctx.beginPath();
+                    ctx.arc(0, -28, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(0, 28, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // 弓弦 - 紫色能量效果
+                    const stringGlow = Math.sin(time * 6) * 0.4 + 0.6;
+                    ctx.strokeStyle = `rgba(150, 0, 255, ${0.6 + stringGlow * 0.4})`;
+                    ctx.lineWidth = 2;
+                    ctx.shadowColor = '#9600ff';
+                    ctx.shadowBlur = 8 + stringGlow * 8;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -25);
+                    ctx.lineTo(-15, 0);
+                    ctx.lineTo(0, 25);
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    
+                    // 弓把
+                    ctx.fillStyle = '#440066';
+                    ctx.fillRect(-4, -35, 8, 10);
+                    ctx.fillRect(-4, 25, 8, 10);
+                    
+                    // 紫色能量波动
+                    ctx.strokeStyle = `rgba(150, 0, 255, ${0.2 + stringGlow * 0.3})`;
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i < 3; i++) {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, 30 + i * 5 + Math.sin(time * 3 + i) * 2, -Math.PI/2 - 0.4, Math.PI/2 + 0.4);
+                        ctx.stroke();
+                    }
+                    
+                    ctx.restore();
                 }
                 
                 ctx.restore();
@@ -1871,6 +2529,7 @@
             }
             
             draw(ctx) {
+                const time = Date.now() * 0.001;
                 ctx.save();
                 
                 const centerX = this.x + this.width/2;
@@ -1881,60 +2540,331 @@
                     ctx.scale(-1, 1);
                 }
                 
-                // 巨大的身体
-                const bob = Math.sin(this.animFrame * 0.2) * 5;
+                // Boss动画参数
+                const breathe = Math.sin(time * 1.5) * 0.05 + 1;
+                const bob = Math.sin(this.animFrame * 0.12) * 6;
+                const phase2 = this.phase === 2;
                 
-                // 巨大的角
-                ctx.fillStyle = '#220000';
-                ctx.beginPath();
-                ctx.moveTo(-25, -40);
-                ctx.lineTo(-40, -100);
-                ctx.lineTo(-15, -50);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.moveTo(25, -40);
-                ctx.lineTo(40, -100);
-                ctx.lineTo(15, -50);
-                ctx.fill();
+                // ========== 巨大翅膀 ==========
+                ctx.save();
+                ctx.translate(-40, -30 + bob);
+                const wingFlap = Math.sin(time * 2) * 0.1;
+                ctx.rotate(wingFlap);
+                ctx.scale(breathe, breathe);
                 
-                // 身体
-                const bodyGrad = ctx.createLinearGradient(0, -50, 0, 50);
-                bodyGrad.addColorStop(0, '#330000');
-                bodyGrad.addColorStop(0.5, '#660000');
-                bodyGrad.addColorStop(1, '#330000');
-                ctx.fillStyle = bodyGrad;
-                ctx.fillRect(-35, -50 + bob, 70, 100);
+                const wingGrad = ctx.createLinearGradient(0, 0, -80, 60);
+                wingGrad.addColorStop(0, '#1a0000');
+                wingGrad.addColorStop(0.4, '#330000');
+                wingGrad.addColorStop(0.8, '#220000');
+                wingGrad.addColorStop(1, 'transparent');
+                ctx.fillStyle = wingGrad;
                 
-                // 发光纹路
-                ctx.strokeStyle = '#ff0000';
-                ctx.lineWidth = 3;
+                // 巨大翅膀轮廓
                 ctx.beginPath();
-                ctx.moveTo(0, -40 + bob);
-                ctx.lineTo(0, 40 + bob);
-                ctx.stroke();
-                
-                // 头部
-                ctx.translate(0, -60 + bob);
-                ctx.fillStyle = '#440000';
-                ctx.beginPath();
-                ctx.arc(0, 0, 25, 0, Math.PI * 2);
+                ctx.moveTo(0, 0);
+                ctx.lineTo(-80, -40);
+                ctx.quadraticCurveTo(-100, 0, -90, 40);
+                ctx.quadraticCurveTo(-60, 60, -20, 50);
+                ctx.lineTo(0, 30);
+                ctx.closePath();
                 ctx.fill();
                 
-                // 发光的眼睛
-                ctx.fillStyle = '#ff0000';
+                // 翅膀脉络发光
+                ctx.strokeStyle = phase2 ? '#ff0000' : '#660000';
+                ctx.lineWidth = 2;
                 ctx.shadowColor = '#ff0000';
-                ctx.shadowBlur = 20;
+                ctx.shadowBlur = phase2 ? 15 : 5;
                 ctx.beginPath();
-                ctx.arc(-10, -5, 8, 0, Math.PI * 2);
-                ctx.arc(10, -5, 8, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.moveTo(-10, 5);
+                ctx.lineTo(-70, -30);
+                ctx.moveTo(-10, 15);
+                ctx.lineTo(-80, 0);
+                ctx.moveTo(-5, 25);
+                ctx.lineTo(-60, 30);
+                ctx.stroke();
                 ctx.shadowBlur = 0;
                 
-                // 巨大的武器
-                ctx.fillStyle = '#660000';
-                ctx.fillRect(40, -20, 15, 80);
-                ctx.fillStyle = '#ff4400';
-                ctx.fillRect(35, -40, 25, 30);
+                ctx.restore();
+                
+                // 右翅膀
+                ctx.save();
+                ctx.translate(40, -30 + bob);
+                ctx.rotate(-wingFlap);
+                ctx.scale(-breathe, breathe);
+                ctx.fillStyle = wingGrad;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(-80, -40);
+                ctx.quadraticCurveTo(-100, 0, -90, 40);
+                ctx.quadraticCurveTo(-60, 60, -20, 50);
+                ctx.lineTo(0, 30);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.strokeStyle = phase2 ? '#ff0000' : '#660000';
+                ctx.lineWidth = 2;
+                ctx.shadowColor = '#ff0000';
+                ctx.shadowBlur = phase2 ? 15 : 5;
+                ctx.beginPath();
+                ctx.moveTo(-10, 5);
+                ctx.lineTo(-70, -30);
+                ctx.moveTo(-10, 15);
+                ctx.lineTo(-80, 0);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                ctx.restore();
+                
+                // ========== 尾巴 ==========
+                ctx.save();
+                ctx.translate(0, 60 + bob);
+                const tailSway = Math.sin(time * 1.5) * 0.15;
+                ctx.rotate(tailSway);
+                
+                const tailGrad = ctx.createLinearGradient(0, 0, 0, 60);
+                tailGrad.addColorStop(0, '#330000');
+                tailGrad.addColorStop(0.5, '#440000');
+                tailGrad.addColorStop(1, '#220000');
+                ctx.fillStyle = tailGrad;
+                
+                ctx.beginPath();
+                ctx.moveTo(-15, 0);
+                ctx.quadraticCurveTo(-25, 30, -20, 60);
+                ctx.quadraticCurveTo(0, 70, 20, 60);
+                ctx.quadraticCurveTo(25, 30, 15, 0);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 尾巴尖刺
+                ctx.fillStyle = phase2 ? '#ff2200' : '#660000';
+                for (let i = 0; i < 5; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(-15 + i * 7, 55);
+                    ctx.lineTo(-13 + i * 7, 75 + i * 3);
+                    ctx.lineTo(-11 + i * 7, 55);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                ctx.restore();
+                
+                // ========== 巨大的角 ==========
+                const hornGlow = phase2 ? 1 : 0.6 + Math.sin(time * 3) * 0.2;
+                ctx.fillStyle = '#110000';
+                
+                // 左角
+                ctx.beginPath();
+                ctx.moveTo(-30, -50 + bob);
+                ctx.quadraticCurveTo(-50, -80 + bob, -55, -120 + bob);
+                ctx.quadraticCurveTo(-35, -100 + bob, -20, -60 + bob);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 左角发光纹路
+                ctx.strokeStyle = `rgba(255, 68, 0, ${hornGlow})`;
+                ctx.lineWidth = 3;
+                ctx.shadowColor = '#ff4400';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.moveTo(-40, -70 + bob);
+                ctx.lineTo(-48, -100 + bob);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                
+                // 右角
+                ctx.fillStyle = '#110000';
+                ctx.beginPath();
+                ctx.moveTo(30, -50 + bob);
+                ctx.quadraticCurveTo(50, -80 + bob, 55, -120 + bob);
+                ctx.quadraticCurveTo(35, -100 + bob, 20, -60 + bob);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.strokeStyle = `rgba(255, 68, 0, ${hornGlow})`;
+                ctx.lineWidth = 3;
+                ctx.shadowColor = '#ff4400';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.moveTo(40, -70 + bob);
+                ctx.lineTo(48, -100 + bob);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                
+                // ========== 身体 ==========
+                ctx.save();
+                ctx.translate(0, bob);
+                ctx.scale(breathe, breathe);
+                
+                // 身体主体
+                const bodyGrad = ctx.createLinearGradient(-40, -60, 40, 60);
+                bodyGrad.addColorStop(0, '#1a0000');
+                bodyGrad.addColorStop(0.3, '#330000');
+                bodyGrad.addColorStop(0.5, phase2 ? '#550000' : '#440000');
+                bodyGrad.addColorStop(0.7, '#330000');
+                bodyGrad.addColorStop(1, '#1a0000');
+                ctx.fillStyle = bodyGrad;
+                ctx.beginPath();
+                ctx.moveTo(-40, -60);
+                ctx.quadraticCurveTo(-50, 0, -40, 60);
+                ctx.quadraticCurveTo(0, 70, 40, 60);
+                ctx.quadraticCurveTo(50, 0, 40, -60);
+                ctx.quadraticCurveTo(0, -70, -40, -60);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 发光纹路
+                ctx.strokeStyle = phase2 ? '#ff0000' : '#aa0000';
+                ctx.lineWidth = 4;
+                const veinGlow = 0.5 + Math.sin(time * 4) * 0.3;
+                ctx.shadowColor = '#ff0000';
+                ctx.shadowBlur = 15 + veinGlow * 10;
+                ctx.globalAlpha = 0.7 + veinGlow * 0.3;
+                
+                // 中央脊柱
+                ctx.beginPath();
+                ctx.moveTo(0, -50);
+                ctx.lineTo(0, 55);
+                ctx.stroke();
+                
+                // 胸口符文
+                ctx.beginPath();
+                ctx.moveTo(-20, -20);
+                ctx.lineTo(0, 10);
+                ctx.lineTo(20, -20);
+                ctx.lineTo(15, 0);
+                ctx.lineTo(-15, 0);
+                ctx.closePath();
+                ctx.stroke();
+                
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+                ctx.restore();
+                
+                // ========== 头部 ==========
+                ctx.save();
+                ctx.translate(0, -75 + bob);
+                ctx.scale(breathe * 0.9, breathe * 0.9);
+                
+                ctx.fillStyle = '#220000';
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 30, 35, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 头部装甲
+                ctx.fillStyle = '#110000';
+                ctx.beginPath();
+                ctx.moveTo(-25, -20);
+                ctx.lineTo(25, -20);
+                ctx.lineTo(20, 5);
+                ctx.lineTo(-20, 5);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 眼睛 - 巨大恐惧
+                const eyePulse = 0.8 + Math.sin(time * 3) * 0.2;
+                ctx.shadowColor = '#ff0000';
+                ctx.shadowBlur = 25 + eyePulse * 15;
+                ctx.fillStyle = phase2 ? '#ff0000' : '#cc0000';
+                
+                ctx.beginPath();
+                ctx.ellipse(-12, -5, 8, 10, -0.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(12, -5, 8, 10, 0.2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 瞳孔
+                ctx.fillStyle = '#000';
+                ctx.beginPath();
+                ctx.arc(-12, -5, 4, 0, Math.PI * 2);
+                ctx.arc(12, -5, 4, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.shadowBlur = 0;
+                
+                // 嘴巴
+                ctx.fillStyle = '#110000';
+                ctx.beginPath();
+                ctx.moveTo(-15, 15);
+                ctx.quadraticCurveTo(0, 25, 15, 15);
+                ctx.quadraticCurveTo(0, 35, -15, 15);
+                ctx.fill();
+                
+                // 狡牙
+                ctx.fillStyle = '#ffffaa';
+                for (let i = 0; i < 6; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(-12 + i * 4, 16);
+                    ctx.lineTo(-10 + i * 4, 25);
+                    ctx.lineTo(-8 + i * 4, 16);
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+                
+                // ========== 巨大的地狱武器 ==========
+                ctx.save();
+                ctx.translate(50, 10 + bob);
+                ctx.rotate(-0.2 + Math.sin(time) * 0.05);
+                
+                // 巨大剑柄
+                ctx.fillStyle = '#0a0000';
+                ctx.fillRect(-12, -15, 24, 30);
+                ctx.fillStyle = '#220000';
+                ctx.fillRect(-10, -12, 20, 24);
+                
+                // 巨大护手
+                ctx.fillStyle = '#110000';
+                ctx.beginPath();
+                ctx.moveTo(-20, 5);
+                ctx.lineTo(20, 5);
+                ctx.lineTo(15, 25);
+                ctx.lineTo(-15, 25);
+                ctx.closePath();
+                ctx.fill();
+                ctx.strokeStyle = '#ff4400';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(-15, 8);
+                ctx.lineTo(-10, 20);
+                ctx.moveTo(15, 8);
+                ctx.lineTo(10, 20);
+                ctx.stroke();
+                
+                // 巨大剑身
+                const bladeGrad = ctx.createLinearGradient(-15, 0, 15, -120);
+                bladeGrad.addColorStop(0, '#110000');
+                bladeGrad.addColorStop(0.3, '#330000');
+                bladeGrad.addColorStop(0.6, phase2 ? '#660000' : '#440000');
+                bladeGrad.addColorStop(0.8, '#ff2200');
+                bladeGrad.addColorStop(1, '#ff8800');
+                ctx.fillStyle = bladeGrad;
+                
+                ctx.beginPath();
+                ctx.moveTo(-15, 15);
+                ctx.lineTo(-12, -100);
+                ctx.quadraticCurveTo(-6, -120, 0, -130);
+                ctx.quadraticCurveTo(6, -120, 12, -100);
+                ctx.lineTo(15, 15);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 剑身发光纹路
+                ctx.strokeStyle = phase2 ? '#ff6600' : '#aa0000';
+                ctx.lineWidth = 3;
+                ctx.shadowColor = '#ff4400';
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.moveTo(0, 15);
+                ctx.lineTo(0, -115);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                
+                // 剑身装饰符文
+                ctx.fillStyle = `rgba(255, 68, 0, ${0.6 + Math.sin(time * 4) * 0.3})`;
+                for (let i = 0; i < 4; i++) {
+                    ctx.beginPath();
+                    ctx.arc(0, -20 - i * 25, 5 + i, 0, Math.PI * 2);
+                    ctx.fill();
+                }
                 
                 ctx.restore();
                 
